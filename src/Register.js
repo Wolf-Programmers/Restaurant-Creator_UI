@@ -9,22 +9,22 @@ function Register()
     const [name, setName]=useState("")
     const [email, setEmail]=useState("")
     const [password, setPassword]=useState("")
-    const [repassword, setRepassword]=useState("")
-    const [phone, setPhone]=useState("")
+    const [matchingPassword, setRepassword]=useState("")
+    const [phone_number, setPhone]=useState("")
 
     async function signUp(){
-        let item={name, email, password, repassword, phone}
-        let result = await fetch("http://localhost:8000/api/?",{
+        let item={name, email, password, matchingPassword, phone_number}
+        let result = await fetch("http://localhost:8080/user/register",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{
-                "Content-Type":'value',
-                "Accept":'value'
+                "Content-Type":'application/json',
+
             }
-        })
-        result = await result.json()
-        localStorage.setItem("user-info",JSON.stringify(result))
-        navigate('/')
+        });
+        result = await result.json();
+        localStorage.setItem("user-info",JSON.stringify(result));
+        navigate('/');
     }
 
     return(
@@ -52,11 +52,11 @@ function Register()
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="registerPassword2">
                             <Form.Label>Powtórz hasło</Form.Label>
-                            <Form.Control type="password" value={repassword} onChange={(e)=>setRepassword(e.target.value)} placeholder="Powtórz hasło" />
+                            <Form.Control type="password" value={matchingPassword} onChange={(e)=>setRepassword(e.target.value)} placeholder="Powtórz hasło" />
                         </Form.Group>
                         <Form.Group className="mb-4" controlId="registerPhone">
                             <Form.Label>Nr. telefonu</Form.Label>
-                            <Form.Control type="phone" value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="Wprowadź nr. tel" />
+                            <Form.Control type="phone" value={phone_number} onChange={(e)=>setPhone(e.target.value)} placeholder="Wprowadź nr. tel" />
                         </Form.Group>
                         <Button variant="danger" onClick={signUp}>
                             Zarejestruj się

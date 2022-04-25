@@ -8,17 +8,17 @@ import Header from './Header';
 function Login()
 {
     let navigate = useNavigate();
-    const [email, setEmail]=useState("")
+    const [login, setEmail]=useState("")
     const [password, setPassword]=useState("")
 
     async function logIn(){
-        let item={email, password}
-        let result = await fetch("http://localhost:8000/api/?",{
+        let item={login, password}
+        let result = await fetch("http://localhost:8080/user/login",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{
-                "Content-Type":'value',
-                "Accept":'value'
+                "Content-Type":'application/json',
+
             }
         })
         result = await result.json()
@@ -38,7 +38,7 @@ function Login()
                         <Col>
                           <Form>
                             <Form.Group className="mt-5 mb-4" >
-                               <Form.Control type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" />
+                               <Form.Control type="email" value={login} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" />
                             </Form.Group>
                             <Form.Group className="mb-4">
                                 <Form.Control type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Hasło" />
