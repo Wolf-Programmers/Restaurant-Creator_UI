@@ -1,11 +1,13 @@
 import { Button, Container, Row, Col, Form} from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faMapLocation } from '@fortawesome/free-solid-svg-icons';
+import Header from './Header';
 
 function RestaurantList()
 {
     return(
         <div>
+            <Header/>
             <Container>
                 <Row className="justify-content-center mt-4">
                     <Col>

@@ -1,12 +1,34 @@
 import { Col, Container, Row, Form, Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import React, {useState} from "react";
+import Header from './Header';
 
 function Login()
 {
+    let navigate = useNavigate();
+    const [email, setEmail]=useState("")
+    const [password, setPassword]=useState("")
+
+    async function logIn(){
+        let item={email, password}
+        let result = await fetch("http://localhost:8000/api/?",{
+            method:'POST',
+            body:JSON.stringify(item),
+            headers:{
+                "Content-Type":'value',
+                "Accept":'value'
+            }
+        })
+        result = await result.json()
+        localStorage.setItem("user-info",JSON.stringify(result))
+        navigate('/')
+    }
+
     return(
         <div>
+            <Header/>
             <Container fluid>
                 <Row>
                     <Col>
@@ -15,13 +37,13 @@ function Login()
                         <Col><h1>Zaloguj się</h1></Col>
                         <Col>
                           <Form>
-                            <Form.Group className="mt-5 mb-4" controlId="formLogin">
-                               <Form.Control type="email" placeholder="Email" />
+                            <Form.Group className="mt-5 mb-4" >
+                               <Form.Control type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" />
                             </Form.Group>
-                            <Form.Group className="mb-4" controlId="formPassword">
-                                <Form.Control type="password" placeholder="Hasło" />
+                            <Form.Group className="mb-4">
+                                <Form.Control type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Hasło" />
                             </Form.Group>
-                            <Button className="login-btn" variant="danger" type="submit">
+                            <Button className="login-btn" variant="danger" onClick={logIn}>
                                 <FontAwesomeIcon icon={faArrowRight} />
                             </Button>
                             </Form>
