@@ -23,8 +23,14 @@ function Register()
             }
         });
         result = await result.json();
-        localStorage.setItem("user-info",JSON.stringify(result));
+        if(result.status === 1){
+        localStorage.setItem("user-info",JSON.stringify(result.value));
         navigate('/');
+        }
+        else{
+            console.warn(result.errorList)
+            console.warn(result.message) 
+        }
     }
 
     return(

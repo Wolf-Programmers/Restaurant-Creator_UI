@@ -18,12 +18,19 @@ function Login()
             body:JSON.stringify(item),
             headers:{
                 "Content-Type":'application/json',
-
             }
         })
         result = await result.json()
-        localStorage.setItem("user-info",JSON.stringify(result))
-        navigate('/')
+        
+        if(result.status === 1){
+            localStorage.setItem("user-info",JSON.stringify(result.value))
+            navigate('/')
+        }
+        else{
+            setEmail("")
+            setPassword("")
+            console.warn(result.message)     
+        }
     }
 
     return(
@@ -36,7 +43,7 @@ function Login()
                         <div className="login-box">
                         <Col><h1>Zaloguj się</h1></Col>
                         <Col>
-                          <Form>
+                          <Form id="login-form">
                             <Form.Group className="mt-5 mb-4" >
                                <Form.Control type="email" value={login} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" />
                             </Form.Group>
