@@ -1,11 +1,12 @@
 import { Col, Container, Row, Form, Button} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 function AddRestaurant()
 {
     
     let navigate = useNavigate();
+    let user = JSON.parse(localStorage.getItem('user-info'))
     const [name, setName]=useState("")
     const [city, setCity]=useState("")
     const [address, setAddress]=useState("")
@@ -26,7 +27,18 @@ function AddRestaurant()
     const [friC, setFriC]=useState("")
     const [satC, setSatC]=useState("")
     const [sunC, setSunC]=useState("")
-    const [type, setType]=useState("")
+    const [type, setType]=useState([])
+    const [typeSelected, setTypeSelected]=useState()
+
+    useEffect (()=>{
+        async function fetchData(){
+        let data = await fetch("http://localhost:8080/restaurant/get-types");
+            data = await data.json()
+            data = await data.value
+        setType(data)
+        }
+        fetchData();
+    },[]);
 
     async function create(){
 
@@ -56,11 +68,22 @@ function AddRestaurant()
                 "from":friO,
                 "to":friC,
             },
+            {
+                "dayOfWeek":6,
+                "from":satO,
+                "to":satC,
+            },
+            {
+                "dayOfWeek":7,
+                "from":sunO,
+                "to":sunC,
+            },
 
         ]
 
-        let owner = 1
-        let restaurantTypesList = [{id:1}]
+        let owner = user.id
+        let cuisine = parseInt(typeSelected)
+        let restaurantTypesList = [{id:cuisine}]
         let item={owner, name, city, address, phoneNumber, email, voivodeship, openingTimes, restaurantTypesList}
         console.warn(item)
 
@@ -78,8 +101,9 @@ function AddRestaurant()
             navigate('/')
         }
         else{
+            console.warn(result) 
             console.warn(result.errorList) 
-            console.warn(result.errorList)   
+            console.warn(type)   
         }
     }
 
@@ -97,7 +121,14 @@ function AddRestaurant()
                         <Col sm={12} md={8}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Typ kuchni</Form.Label>
-                                <Form.Control type="input" value={type} onChange={(e)=>setType(e.target.value)}/>
+                                <Form.Select aria-label="Default select example" value={typeSelected} onChange={(e)=>setTypeSelected(e.target.value)}>
+                                    <option>Wybierz</option>
+                                    {
+                                        type.map((opt)=>
+                                            <option value={opt.id}>{opt.name}</option>
+                                        )
+                                    }
+                                </Form.Select>
                             </Form.Group>
                         </Col>
                         <div className="clearfix"></div>
@@ -188,14 +219,22 @@ function AddRestaurant()
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
+                            <Row className="justify-content-center">
                                 <Form.Label className="float-start">Sobota</Form.Label>
-                                <Form.Control type="input" value={satO} onChange={(e)=>setSatO(e.target.value)}/>
+                                <Col sm={5}><Form.Control type="input" value={satO} onChange={(e)=>setSatO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="input" value={satC} onChange={(e)=>setSatC(e.target.value)}/></Col>
+                                </Row>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
+                            <Row className="justify-content-center">
                                 <Form.Label className="float-start">Niedziela</Form.Label>
-                                <Form.Control type="input" value={sunO} onChange={(e)=>setSunO(e.target.value)}/>
+                                <Col sm={5}><Form.Control type="input" value={sunO} onChange={(e)=>setSunO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="input" value={sunC} onChange={(e)=>setSunC(e.target.value)}/></Col>
+                                </Row>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={8}>
