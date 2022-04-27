@@ -6,40 +6,65 @@ function AddRestaurant()
 {
     
     let navigate = useNavigate();
-    const [owner, setOwner]=useState("")
     const [name, setName]=useState("")
     const [city, setCity]=useState("")
     const [address, setAddress]=useState("")
     const [phoneNumber, setPhone]=useState("")
     const [email, setEmail]=useState("")
     const [voivodeship, setVoivodeship]=useState("")
-    const [mon, setMon]=useState("")
-    const [tue, setTue]=useState("")
-    const [wed, setWed]=useState("")
-    const [thu, setThu]=useState("")
-    const [fri, setFri]=useState("")
-    const [sat, setSat]=useState("")
-    const [sun, setSun]=useState("")
+    const [monO, setMonO]=useState("")
+    const [tueO, setTueO]=useState("")
+    const [wedO, setWedO]=useState("")
+    const [thuO, setThuO]=useState("")
+    const [friO, setFriO]=useState("")
+    const [satO, setSatO]=useState("")
+    const [sunO, setSunO]=useState("")
+    const [monC, setMonC]=useState("")
+    const [tueC, setTueC]=useState("")
+    const [wedC, setWedC]=useState("")
+    const [thuC, setThuC]=useState("")
+    const [friC, setFriC]=useState("")
+    const [satC, setSatC]=useState("")
+    const [sunC, setSunC]=useState("")
     const [type, setType]=useState("")
 
     async function create(){
-        setOwner(1)
 
-        let openingTimes = {
-            "1":mon,
-            "2":tue,
-            "3":wed,
-            "4":thu,
-            "5":fri,
-            "6":sat,
-            "7":sun,
-        }
+        let openingTimes = [
+            {
+                "dayOfWeek":1,
+                "from":monO,
+                "to":monC,
+            },
+            {
+                "dayOfWeek":2,
+                "from":tueO,
+                "to":tueC,
+            },
+            {
+                "dayOfWeek":3,
+                "from":wedO,
+                "to":wedC,
+            },
+            {
+                "dayOfWeek":4,
+                "from":thuO,
+                "to":thuC,
+            },
+            {
+                "dayOfWeek":5,
+                "from":friO,
+                "to":friC,
+            },
 
-        let restaurantTypesList = {"1":type}
+        ]
+
+        let owner = 1
+        let restaurantTypesList = [{id:1}]
         let item={owner, name, city, address, phoneNumber, email, voivodeship, openingTimes, restaurantTypesList}
         console.warn(item)
 
-        let result = await fetch("http://localhost:8080/restaurant/add",{
+        let result = await fetch("http://localhost:8080/restaurant/add/",{
             method:'PUT',
             body:JSON.stringify(item),
             headers:{
@@ -113,44 +138,64 @@ function AddRestaurant()
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Poniedziałek</Form.Label>
-                                <Form.Control type="input" value={mon} onChange={(e)=>setMon(e.target.value)}/>
+                                <Row className="justify-content-center">
+                                    <Col sm={5}><Form.Control type="input" value={monO} onChange={(e)=>setMonO(e.target.value)}/></Col>
+                                    -
+                                    <Col sm={5}><Form.Control type="input" value={monC} onChange={(e)=>setMonC(e.target.value)}/></Col>
+                                </Row>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Wtorek</Form.Label>
-                                <Form.Control type="input" value={tue} onChange={(e)=>setTue(e.target.value)}/>
+                                <Row className="justify-content-center">
+                                <Col sm={5}><Form.Control type="input" value={tueO} onChange={(e)=>setTueO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="input" value={tueC} onChange={(e)=>setTueC(e.target.value)}/></Col>
+                                </Row>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Środa</Form.Label>
-                                <Form.Control type="input" value={wed} onChange={(e)=>setWed(e.target.value)}/>
+                                <Row className="justify-content-center">
+                                <Col sm={5}><Form.Control type="input" value={wedO} onChange={(e)=>setWedO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="input" value={wedC} onChange={(e)=>setWedC(e.target.value)}/></Col>
+                                </Row>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Czwartek</Form.Label>
-                                <Form.Control type="input" value={thu} onChange={(e)=>setThu(e.target.value)}/>
+                                <Row className="justify-content-center">
+                                <Col sm={5}><Form.Control type="input" value={thuO} onChange={(e)=>setThuO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="input" value={thuC} onChange={(e)=>setThuC(e.target.value)}/></Col>
+                                </Row>
                             </Form.Group>
                         </Col>
                         <div className="clearfix"></div>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Piątek</Form.Label>
-                                <Form.Control type="input" value={fri} onChange={(e)=>setFri(e.target.value)}/>
+                                <Row className="justify-content-center">
+                                <Col sm={5}><Form.Control type="input" value={friO} onChange={(e)=>setFriO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="input" value={friC} onChange={(e)=>setFriC(e.target.value)}/></Col>
+                                </Row>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Sobota</Form.Label>
-                                <Form.Control type="input" value={sat} onChange={(e)=>setSat(e.target.value)}/>
+                                <Form.Control type="input" value={satO} onChange={(e)=>setSatO(e.target.value)}/>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Niedziela</Form.Label>
-                                <Form.Control type="input" value={sun} onChange={(e)=>setSun(e.target.value)}/>
+                                <Form.Control type="input" value={sunO} onChange={(e)=>setSunO(e.target.value)}/>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={8}>
