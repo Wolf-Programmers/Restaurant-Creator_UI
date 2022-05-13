@@ -1,4 +1,4 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
+import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +10,11 @@ function Login()
     let navigate = useNavigate();
     const [login, setEmail]=useState("")
     const [password, setPassword]=useState("")
+    
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState([])
+
+    const handleClose = () => setShow(false);
 
     async function logIn(){
         let item={login, password}
@@ -27,15 +32,32 @@ function Login()
             navigate('/')
         }
         else{
+            setErrorMessage([result.errorList.login, result.errorList.password])
+            console.warn(errorMessage)
+            console.warn(result)
+            setShow(true)
             setEmail("")
             setPassword("")
-            console.warn(result.message)     
         }
     }
 
     return(
         <div>
             <Header/>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Błąd</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+           { errorMessage.map((item) => <p>{item}</p>) }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleClose}>
+            Zamknij
+          </Button>
+        </Modal.Footer>
+      </Modal>
             <Container fluid>
                 <Row>
                     <Col>

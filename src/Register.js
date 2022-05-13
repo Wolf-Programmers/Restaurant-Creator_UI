@@ -1,4 +1,4 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
+import { Col, Container, Row, Form, Button , Modal} from "react-bootstrap";
 import { Link, useNavigate} from 'react-router-dom';
 import React, {useState} from "react";
 import Header from './Header';
@@ -11,6 +11,11 @@ function Register()
     const [password, setPassword]=useState("")
     const [matchingPassword, setRepassword]=useState("")
     const [phone_number, setPhone]=useState("")
+
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState([])
+
+    const handleClose = () => setShow(false);
 
     async function signUp(){
         let item={name, email, password, matchingPassword, phone_number}
@@ -28,14 +33,30 @@ function Register()
         navigate('/');
         }
         else{
+            setErrorMessage([result.errorList.email, result.errorList.password, result.errorList.matchingPassword, result.errorList.phoneNumber])
+            console.warn(errorMessage)
             console.warn(result.errorList)
-            console.warn(result.message) 
+            console.warn(result) 
+            setShow(true)
         }
     }
 
     return(
         <div>
         <Header/>
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Błąd</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+           { errorMessage.map((item) => <p>{item}</p>) }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleClose}>
+            Zamknij
+          </Button>
+        </Modal.Footer>
+      </Modal>
         <Container fluid>
             <Row>
                 <Col>

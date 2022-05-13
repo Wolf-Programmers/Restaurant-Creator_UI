@@ -10,6 +10,21 @@
     position: fixed;
 }
 
+.bg-mute{
+    background-color: rgba(255, 255, 255, .95);
+    height: 100%;
+    width: 100%;
+}
+
+.search-box{
+    padding: 3vh 4vw;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+ }
+
 .login-box{
     background-color: #fff;
     padding: 3vh 4vw;

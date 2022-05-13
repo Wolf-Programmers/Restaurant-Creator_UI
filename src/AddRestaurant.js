@@ -34,7 +34,9 @@ function AddRestaurant()
         async function fetchData(){
         let data = await fetch("http://localhost:8080/restaurant/get-types");
             data = await data.json()
+            console.warn(data)
             data = await data.value
+            console.warn(data)
         setType(data)
         }
         fetchData();
@@ -219,8 +221,8 @@ function AddRestaurant()
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
+                            <Form.Label className="float-start">Sobota</Form.Label>
                             <Row className="justify-content-center">
-                                <Form.Label className="float-start">Sobota</Form.Label>
                                 <Col sm={5}><Form.Control type="input" value={satO} onChange={(e)=>setSatO(e.target.value)}/></Col>
                                 -
                                 <Col sm={5}><Form.Control type="input" value={satC} onChange={(e)=>setSatC(e.target.value)}/></Col>
@@ -229,8 +231,8 @@ function AddRestaurant()
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
-                            <Row className="justify-content-center">
                                 <Form.Label className="float-start">Niedziela</Form.Label>
+                            <Row className="justify-content-center">
                                 <Col sm={5}><Form.Control type="input" value={sunO} onChange={(e)=>setSunO(e.target.value)}/></Col>
                                 -
                                 <Col sm={5}><Form.Control type="input" value={sunC} onChange={(e)=>setSunC(e.target.value)}/></Col>
@@ -240,7 +242,7 @@ function AddRestaurant()
                         <Col sm={12} md={8}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Opis</Form.Label>
-                                <Form.Control as="textarea" rows={4} />
+                                <Form.Control as="textarea" rows={3} />
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={8}>
