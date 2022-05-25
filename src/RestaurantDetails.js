@@ -12,6 +12,7 @@ function RestaurantDetails(props)
     let {id} = useParams();
     const [restaurant, setRestaurant]=useState({})
     const [opening, setOpening]=useState([])
+    const [menu, setMenu]=useState([])
     
     function today(day){
         var weekdays = new Array(8);
@@ -27,7 +28,7 @@ function RestaurantDetails(props)
     }
     
     useEffect (()=>{
-        async function fetchData(){
+        async function fetchOpeningData(){
         let data = await fetch("http://localhost:8080/restaurant/info?id=" + id);
             data = await data.json()
             console.warn(data.value)
@@ -42,7 +43,22 @@ function RestaurantDetails(props)
             }
         
         }
-        fetchData();
+        async function fetchMenuData(){
+            let data = await fetch("http://localhost:8080/menu/show-restaurant-menus?restaurantId=" + id);
+                data = await data.json()
+                console.warn(data.value)
+                console.warn(data)
+                if(data.status === 1){
+                    data = await data.value
+                    setMenu(data)
+                }
+                else {
+                    
+                }
+            
+            }
+        fetchOpeningData();
+        fetchMenuData();
         console.warn(JSON.stringify(restaurant))
     },[]);
 
@@ -73,6 +89,40 @@ function RestaurantDetails(props)
                     <Col sm={12} md={4}>
                         <h6 className="float-md-start">{item.from} - {item.to}</h6>
                     </Col>
+                </Row>
+                )}
+                </Col>
+            </Row>
+            <Row className="mt-4 justify-content-center">
+                <Col md={12} className="mt-5">
+                <h1>Menu</h1>
+                {menu.map((type)=>
+                <Row className="mb-4 justify-content-center">
+                    <Col sm={12} md={8} >
+                    <h3 className="float-md-start">{type.menuName}</h3>
+                    </Col>
+                    <Col sm={12} md={2} >
+                        <p className="float-md-end">{type.menuTypeName}</p>
+                    </Col>
+                    <div className="clearfix"></div>
+                    {type.itemsList.map((item)=>
+                    <Row className="justify-content-center">
+                        <Col sm={12} md={6} >
+                            <h6 className="float-md-start">{item.title}</h6>
+                        </Col>
+                        <Col sm={12} md={2} >
+                            <p className="float-md-end">{item.quantity}{item.unit}</p>
+                        </Col>
+                        <div className="clearfix"></div>
+                        <Col sm={12} md={8} >
+                            <h6>Cena: {item.price} zł</h6>
+                        </Col>
+                        <div className="clearfix"></div>
+                        <Col sm={12} md={8} >
+                            <p>{item.describe}</p>
+                        </Col>
+                    </Row>
+                    )}
                 </Row>
                 )}
                 </Col>

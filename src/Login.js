@@ -18,6 +18,7 @@ function Login()
 
     async function logIn(){
         let item={login, password}
+        console.warn(item)
         let result = await fetch("http://localhost:8080/user/login",{
             method:'POST',
             body:JSON.stringify(item),
@@ -26,7 +27,7 @@ function Login()
             }
         })
         result = await result.json()
-        
+        console.warn(result)
         if(result.status === 1){
             localStorage.setItem("user-info",JSON.stringify(result.value))
             navigate('/')

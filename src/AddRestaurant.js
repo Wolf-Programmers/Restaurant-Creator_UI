@@ -127,7 +127,7 @@ function AddRestaurant()
                                     <option>Wybierz</option>
                                     {
                                         type.map((opt)=>
-                                            <option value={opt.id}>{opt.name}</option>
+                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
                                         )
                                     }
                                 </Form.Select>
