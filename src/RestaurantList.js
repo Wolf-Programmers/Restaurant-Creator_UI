@@ -43,7 +43,7 @@ function RestaurantList()
                         <Button variant="outline-secondary" className="search-icon"><FontAwesomeIcon icon={faSearch} /></Button> */}
                     </Col>
                 </Row>
-                <Row className="mt-3">
+                {/* <Row className="mt-3">
                     <Col>
                     <Button variant="outline-danger" className="cousine-type">Kuchnia Włoska</Button>
                     <Button variant="outline-danger" className="cousine-type">Kuchnia Azjatycka</Button>
@@ -51,7 +51,7 @@ function RestaurantList()
                     <Button variant="outline-danger" className="cousine-type">Burgery</Button>
                     <Button variant="outline-danger" className="cousine-type">Kuchnia Polska</Button>
                     </Col>
-                </Row>
+                </Row> */}
             </Container>
             <div className="clearfix"></div>
             <Container className="mt-5">
@@ -80,7 +80,9 @@ function RestaurantList()
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida erat a venenatis aliquet. Fusce ornare rutrum congue. Aenean ex justo, bibendum in erat eget, aliquet facilisis urna. Sed aliquet laoreet tristique. Sed blandit augue a ultricies vulputate. Vivamus vehicula nisl vitae arcu eleifend, eget rhoncus tellus placerat.
                                     </p>
                                  </Col>
-                                 <Col><Button variant="danger" className="float-end" >Więcej</Button></Col>
+                                 <Col>
+                                 <a href={"/restaurant/" + item.id}><Button variant="danger" className="float-end" >Więcej</Button></a>
+                                 </Col>
                             </Row>
                         </Col>
                     </Row>

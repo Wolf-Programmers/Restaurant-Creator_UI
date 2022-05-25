@@ -7,18 +7,13 @@ import Header from './Header';
 
 function RestaurantSearch(){
 
-    // useEffect(()=>{
-
-    //     localStorage.clear('city');
-        
-    //     }, [])
 
     let navigate = useNavigate();
     const [city, setCity]=useState("")
 
     function searchCity(){
         localStorage.setItem("city",city)
-        navigate('/restaurants')
+        navigate('/restaurant')
     }
 
     return(
