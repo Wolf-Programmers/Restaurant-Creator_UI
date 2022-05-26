@@ -19,7 +19,7 @@ function Register()
 
     async function signUp(){
         let item={name, email, password, matchingPassword, phone_number}
-        let result = await fetch("http://localhost:8080/user/register",{
+        let result = await fetch("http://creator.azurewebsites.net/user/register",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{

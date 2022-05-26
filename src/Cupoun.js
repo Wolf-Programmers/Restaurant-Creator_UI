@@ -16,7 +16,7 @@ function Cupoun()
 
     async function create(){
 
-        let restaurant = await fetch("http://localhost:8080/restaurant/info?id=" + id);
+        let restaurant = await fetch("http://creator.azurewebsites.net/restaurant/info?id=" + id);
         restaurant= await restaurant.json()
         restaurant = await restaurant.value
         console.warn(restaurant)
@@ -24,7 +24,7 @@ function Cupoun()
         let item={cuponCode, maxUse, restaurant}
         console.warn(item)
 
-        let result = await fetch("http://localhost:8080/cupon/cupon-create/",{
+        let result = await fetch("http://creator.azurewebsites.net/cupon/cupon-create/",{
             method:'Post',
             body:JSON.stringify(item),
             headers:{
