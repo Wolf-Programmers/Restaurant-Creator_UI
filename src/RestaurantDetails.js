@@ -40,7 +40,7 @@ function RestaurantDetails(props)
     }
 
     useEffect (()=>{
-        async function fetchData(){
+        async function fetchOpeningData(){
         let data = await fetch("http://creator.azurewebsites.net/restaurant/info?id=" + id);
             data = await data.json()
             console.warn(data.value)
