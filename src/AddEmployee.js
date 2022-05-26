@@ -21,7 +21,7 @@ function AddEmployee()
         let item={name,lastName, phoneNumber, email, password, salary, restaurantId, employeeRoleId}
         console.warn(item)
 
-        let result = await fetch("http://localhost:8080/employee/add-employee/",{
+        let result = await fetch("http://creator.azurewebsites.net/employee/add-employee/",{
             method:'PUT',
             body:JSON.stringify(item),
             headers:{

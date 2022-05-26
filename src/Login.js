@@ -18,7 +18,7 @@ function Login()
 
     async function logIn(){
         let item={login, password}
-        let result = await fetch("http://localhost:8080/user/login",{
+        let result = await fetch("http://creator.azurewebsites.net/user/login",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{

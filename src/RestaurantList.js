@@ -15,7 +15,7 @@ function RestaurantList()
     
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://localhost:8080/restaurant/info-city?city=" + city);
+        let data = await fetch("http://creator.azurewebsites.net/restaurant/info-city?city=" + city);
             data = await data.json()
             console.warn(data.value)
 
