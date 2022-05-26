@@ -13,6 +13,14 @@ function RestaurantDetails(props)
     const [restaurant, setRestaurant]=useState({})
     const [opening, setOpening]=useState([])
     const [menu, setMenu]=useState([])
+
+    const [customerName, setCustomerName]=useState("")
+    const [customerCity, setCustomerCity]=useState("")
+    const [customerAddress, setCustomerAddress]=useState("")
+    const [totalPrice, setTotalPrice]=useState("")
+    const [cupouCode, setCupouCode]=useState("")
+    const [itemList, setItemList]=useState([])
+    const [restaurantId, setRestaurantId]=useState("")
     
     function today(day){
         var weekdays = new Array(8);
@@ -27,6 +35,10 @@ function RestaurantDetails(props)
         return weekdays[day]
     }
     
+    function addItem(position, price){
+        console.warn("sdsa")
+    }
+
     useEffect (()=>{
         async function fetchOpeningData(){
         let data = await fetch("http://localhost:8080/restaurant/info?id=" + id);
@@ -61,6 +73,10 @@ function RestaurantDetails(props)
         fetchMenuData();
         console.warn(JSON.stringify(restaurant))
     },[]);
+
+    function test(){
+        console.warn(itemList)
+    }
 
     return(
         <div>
@@ -106,7 +122,7 @@ function RestaurantDetails(props)
                     </Col>
                     <div className="clearfix"></div>
                     {type.itemsList.map((item)=>
-                    <Row className="justify-content-center">
+                    <Row className="mb-3 justify-content-center">
                         <Col sm={12} md={6} >
                             <h6 className="float-md-start">{item.title}</h6>
                         </Col>
@@ -121,12 +137,16 @@ function RestaurantDetails(props)
                         <Col sm={12} md={8} >
                             <p>{item.describe}</p>
                         </Col>
+                        <Col sm={12} md={8}>
+                            <Button variant="danger" className="float-end" onClick={addItem(item.id, item.price)}>Więcej</Button>
+                        </Col>
                     </Row>
                     )}
                 </Row>
                 )}
                 </Col>
                 </Row>
+                <Button variant="danger" onClick={test}>Więcej</Button>
             </Container>
         </div>
     )
