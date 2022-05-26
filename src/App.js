@@ -5,9 +5,11 @@ import Register from './Register';
 import RestaurantSearch from './RestaurantSearch';
 import RestaurantList from './RestaurantList';
 import RestaurantDetails from './RestaurantDetails';
-import ManageEmploee from './ManageEmploee';
-import ManageRestaurant from './ManageRestaurant';
-import ManageMenu from './ManageMenu';
+import ManageRestaurant from './Manage/ManageRestaurant';
+import ManageMenu from './Manage/ManageMenu';
+import ManageEmploee from './Manage/ManageEmployee';
+import AddRestaurant from './Manage/Restaurant/AddRestaurant';
+import EditRestaurant from './Manage/Restaurant/EditRestaurant';
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
         <Route path='/restaurant' element={<RestaurantList/>} />
         <Route path='/restaurant/:id' element={<RestaurantDetails/>} />
         <Route path='/manage/menu' element={<ManageMenu/>} />
-        <Route path='/manage/restaurant' element={<ManageRestaurant/>} />
+        <Route path='/manage/restaurant' element={<ManageRestaurant/>}/>
+        <Route path='/manage/restaurant/add' element={<AddRestaurant/>}/>
+        <Route path='/manage/restaurant/:id' element={<EditRestaurant/>}/>
         <Route path='/manage/emploee' element={<ManageEmploee/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
