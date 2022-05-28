@@ -23,6 +23,7 @@ function Login()
             body:JSON.stringify(item),
             headers:{
                 "Content-Type":'application/json',
+                "Access-Control-Allow-Origin" : "*"
             }
         })
         result = await result.json()

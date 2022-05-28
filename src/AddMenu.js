@@ -2,6 +2,7 @@ import { Col, Container, Row, Form, Button} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 
+
 function AddMenu()
 {
     
@@ -15,7 +16,7 @@ function AddMenu()
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
         
             data = await data.json()
             console.warn(data)
@@ -31,7 +32,7 @@ function AddMenu()
         let item={creatorId, name, menuTypeId, restaurantId}
         console.warn(item)
 
-        let result = await fetch("http://localhost:8080/menu/create/",{
+        let result = await fetch("http://creator.azurewebsites.net/menu/create/",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{

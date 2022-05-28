@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faMapLocation, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import {useNavigate } from 'react-router-dom';
 
+
 function RestaurantDetails(props)
 {   
     let navigate = useNavigate();
@@ -21,7 +22,7 @@ function RestaurantDetails(props)
     const [cupouCode, setCupouCode]=useState("")
     const [itemList, setItemList]=useState([])
     const [restaurantId, setRestaurantId]=useState("")
-    
+
     function today(day){
         var weekdays = new Array(8);
         weekdays[0] = "Niedziela";
@@ -56,7 +57,7 @@ function RestaurantDetails(props)
         
         }
         async function fetchMenuData(){
-            let data = await fetch("http://localhost:8080/menu/show-restaurant-menus?restaurantId=" + id);
+            let data = await fetch("http://creator.azurewebsites.net/menu/show-restaurant-menus?restaurantId=" + id);
                 data = await data.json()
                 console.warn(data.value)
                 console.warn(data)

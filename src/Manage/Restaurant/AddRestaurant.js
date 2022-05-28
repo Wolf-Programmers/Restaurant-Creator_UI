@@ -4,7 +4,14 @@ import React, {useEffect, useState} from "react";
 import Header from "../../Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import TimePicker from '@mui/lab/TimePicker';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import MobileDatePicker from '@mui/lab/MobileDatePicker';
 function AddRestaurant()
 {
     
@@ -32,7 +39,11 @@ function AddRestaurant()
     const [sunC, setSunC]=useState("")
     const [type, setType]=useState([])
     const [typeSelected, setTypeSelected]=useState()
+    const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
 
+    const handleChange = (newValue) => {
+        setValue(newValue);
+    };
     useEffect (()=>{
         async function fetchData(){
         let data = await fetch("http://creator.azurewebsites.net/restaurant/get-types");
@@ -189,6 +200,16 @@ function AddRestaurant()
                         </Col>
                         <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <Stack spacing={3}>
+                                        <TimePicker
+                                            label="Time"
+                                            value={value}
+                                            onChange={handleChange}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </Stack>
+                                </LocalizationProvider>
                                 <Form.Label className="float-start">Wtorek</Form.Label>
                                 <Row className="justify-content-center">
                                 <Col sm={5}><Form.Control type="input" value={tueO} onChange={(e)=>setTueO(e.target.value)}/></Col>
