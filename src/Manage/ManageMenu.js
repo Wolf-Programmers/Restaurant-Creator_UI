@@ -1,7 +1,7 @@
-import AddItem from "../AddItem";
-import AddItemToMenu from "../AddItemToMenu";
-import AddMenu from "../AddMenu";
 import Header from '../Header';
+import AddItem from './Menu/AddItem';
+import AddItemToMenu from './Menu/AddItemToMenu';
+import AddMenu from './Menu/AddMenu';
 
 function ManageMenu()
 {
@@ -9,8 +9,9 @@ function ManageMenu()
         <div>
             <Header/>
             <AddItem/>
-            <AddMenu/> 
-            <AddItemToMenu/> 
+            <AddMenu/>
+            <AddItemToMenu/>
+            
         </div>
     )
 }

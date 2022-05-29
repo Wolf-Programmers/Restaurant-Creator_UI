@@ -1,4 +1,4 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
+import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 
@@ -15,6 +15,11 @@ function AddEmployee()
     const [salary, setSalary]=useState()
     const [restaurantId, setRestaurantId]=useState()
     const [employeeRoleId, setEmployeeRoleId]=useState()
+
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState([])
+
+    const handleClose = () => setShow(false);
 
     async function create(){
 
@@ -35,13 +40,35 @@ function AddEmployee()
             navigate('/')
         }
         else{
-            console.warn(result) 
-            console.warn(result.errorList)
+            errorMessage.length = 0
+            errorMessage.push("")
+            errorMessage.push(result.errorList.email)
+            errorMessage.push(result.errorList.lastName)
+            errorMessage.push(result.errorList.name)
+            errorMessage.push(result.errorList.password)
+            errorMessage.push(result.errorList.phoneNumber)
+            errorMessage.push(result.errorList.salary)
+            console.warn(errorMessage)
+            console.warn(result)
+            setShow(true)
         }
     }
 
     return(
         <div>
+            <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Błąd</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    { errorMessage.map((item) => <p>{item}</p>) }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Zamknij
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
                     <Col sm={12}><h2>Dodaj pracownika</h2></Col> 
@@ -80,7 +107,7 @@ function AddEmployee()
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Płaca</Form.Label>
-                                <Form.Control type="input" value={salary} onChange={(e)=>setSalary(e.target.value)}/>
+                                <Form.Control type="number" value={salary} onChange={(e)=>setSalary(e.target.value)}/>
                             </Form.Group>
                         </Col>
                         <div className="clearfix"></div>

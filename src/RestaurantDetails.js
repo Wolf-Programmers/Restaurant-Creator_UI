@@ -1,11 +1,10 @@
-import { Button, Container, Row, Col} from "react-bootstrap"
+import { Button, Container, Row, Col, Modal} from "react-bootstrap"
 import React, { useEffect , useState} from "react";
 import {useParams} from "react-router-dom";
 import Header from './Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faMapLocation, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import {faMapLocation, faPhone, faEnvelope, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import {useNavigate } from 'react-router-dom';
-
 
 function RestaurantDetails(props)
 {   
@@ -14,15 +13,13 @@ function RestaurantDetails(props)
     const [restaurant, setRestaurant]=useState({})
     const [opening, setOpening]=useState([])
     const [menu, setMenu]=useState([])
+    const [cart, setCart]=useState([])
+    const [show, setShow] = useState(false);
+    
 
-    const [customerName, setCustomerName]=useState("")
-    const [customerCity, setCustomerCity]=useState("")
-    const [customerAddress, setCustomerAddress]=useState("")
-    const [totalPrice, setTotalPrice]=useState("")
-    const [cupouCode, setCupouCode]=useState("")
-    const [itemList, setItemList]=useState([])
-    const [restaurantId, setRestaurantId]=useState("")
-
+    const handleOpen = () => setShow(true);
+    const handleClose = () => setShow(false);
+    
     function today(day){
         var weekdays = new Array(8);
         weekdays[0] = "Niedziela";
@@ -36,8 +33,10 @@ function RestaurantDetails(props)
         return weekdays[day]
     }
     
-    function addItem(position, price){
-        console.warn("sdsa")
+    function addItem(item){  
+        cart.push(item)   
+        console.warn(item)
+        console.warn(cart)
     }
 
     useEffect (()=>{
@@ -57,7 +56,7 @@ function RestaurantDetails(props)
         
         }
         async function fetchMenuData(){
-            let data = await fetch("http://creator.azurewebsites.net/menu/show-restaurant-menus?restaurantId=" + id);
+            let data = await fetch("http://localhost:8080/menu/show-restaurant-menus?restaurantId=" + id);
                 data = await data.json()
                 console.warn(data.value)
                 console.warn(data)
@@ -75,14 +74,46 @@ function RestaurantDetails(props)
         console.warn(JSON.stringify(restaurant))
     },[]);
 
-    function test(){
-        console.warn(itemList)
-    }
 
     return(
         <div>
             <Header/>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Koszyk</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                { 
+                cart && cart.length?
+                cart.map((item) => 
+                <Row>
+                    <Col sm={8}>
+                    <h5>{item.title}</h5>
+                    </Col>
+                    <Col sm={4}>
+                    <p className="float-end" >{item.quantity}{item.unit}</p>
+                    </Col>
+                    <Col sm={12}>
+                    {item.describe}
+                    </Col>
+                    <Col sm={11}>
+                    <h6 className="float-end">{item.price}zł</h6>
+                    </Col>
+                </Row>
+                ) 
+                :<p>Koszyk jest pusty</p>
+                }
+                </Modal.Body>
+                <Modal.Footer>
+                   <Button variant="danger" onClick={handleClose}>
+                        Zamknij
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             <Container>
+            <Button className="mt-3 cart" variant="danger" onClick={handleOpen}>
+                <FontAwesomeIcon icon={faCartShopping} />
+            </Button>
             <Row className="mt-4">
                 <Col sm={12}>
                 <h1>{restaurant.name}</h1>
@@ -114,7 +145,7 @@ function RestaurantDetails(props)
                 <Col md={12} className="mt-5">
                 <h1>Menu</h1>
                 {menu.map((type)=>
-                <Row className="mb-4 justify-content-center">
+                <Row key={menu.id} className="mb-4 justify-content-center">
                     <Col sm={12} md={8} >
                     <h3 className="float-md-start">{type.menuName}</h3>
                     </Col>
@@ -123,7 +154,7 @@ function RestaurantDetails(props)
                     </Col>
                     <div className="clearfix"></div>
                     {type.itemsList.map((item)=>
-                    <Row className="mb-3 justify-content-center">
+                    <Row key={item.id} className="mb-3 justify-content-center">
                         <Col sm={12} md={6} >
                             <h6 className="float-md-start">{item.title}</h6>
                         </Col>
@@ -139,7 +170,7 @@ function RestaurantDetails(props)
                             <p>{item.describe}</p>
                         </Col>
                         <Col sm={12} md={8}>
-                            <Button variant="danger" className="float-end" onClick={addItem(item.id, item.price)}>Więcej</Button>
+                            <Button variant="danger" className="float-end" onClick={(e) => addItem(item, e)}>Kup</Button>
                         </Col>
                     </Row>
                     )}
@@ -147,7 +178,6 @@ function RestaurantDetails(props)
                 )}
                 </Col>
                 </Row>
-                <Button variant="danger" onClick={test}>Więcej</Button>
             </Container>
         </div>
     )

@@ -13,7 +13,7 @@ function ManageRestaurant()
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
         
             data = await data.json()
             console.warn(data)
@@ -27,7 +27,7 @@ function ManageRestaurant()
 
     async function deleteRestaurant(RestaurantId){
         console.warn(RestaurantId)
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/delete?restaurantId=" + RestaurantId);
+        let data = await fetch("http://localhost:8080/restaurant/delete?restaurantId=" + RestaurantId);
         console.warn(data)
     }
 

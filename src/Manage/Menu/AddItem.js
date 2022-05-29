@@ -1,4 +1,4 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
+import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 
@@ -14,20 +14,31 @@ function AddItem()
     const [unit, setUnit]=useState("")
     const [restaurants, setRestaurants]=useState([])
     const [restaurantId, setRestaurantId]=useState("")
-    const [itemType, setItemType]=useState("1")
+    const [items, setItems]=useState([])
+    const [itemType, setItemType]=useState("")
+
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState([])
+
+    const handleClose = () => setShow(false);
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
         
             data = await data.json()
-            console.warn(data)
-            console.warn(data.value)
             data = data.value
             setRestaurants(data)
         }
-        fetchData();
-        console.warn(JSON.stringify(restaurants))
+        async function fetchItemTypeData(){
+            let data = await fetch("http://localhost:8080/item/get-item-types");
+            
+                data = await data.json()
+                data = data.value
+                setItems(data)
+            }
+        fetchData()
+        fetchItemTypeData()
     },[]);
 
     async function create(){
@@ -35,7 +46,7 @@ function AddItem()
         let item={title, desc, quantity, price, unit, restaurantId, itemType}
         console.warn(item)
 
-        let result = await fetch("http://creator.azurewebsites.net/item/create/",{
+        let result = await fetch("http://localhost:8080/item/create/",{
             method:'PUT',
             body:JSON.stringify(item),
             headers:{
@@ -48,13 +59,32 @@ function AddItem()
         if(result.status === 1){
         }
         else{
-            console.warn(result) 
-            console.warn(result.errorList)
+            errorMessage.length=0
+            errorMessage.push(result.errorList.title)
+            errorMessage.push(result.errorList.quantity)
+            errorMessage.push(result.errorList.price)
+            setShow(true)
         }
     }
 
     return(
         <div>
+            <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Błąd</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    { errorMessage && errorMessage.length?
+                    errorMessage.map((item) => <p>{item}</p>) 
+                    :<p>Błędne dane</p>
+                    }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Zamknij
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
                     <Col sm={12}><h2>Dodaj pozycję menu</h2></Col> 
@@ -99,10 +129,10 @@ function AddItem()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Typ</Form.Label>
                                 <Form.Select value={itemType} onChange={(e)=>setItemType(e.target.value)}>
-                                <option value="1">Burger</option>
-                                <option value="2">Kebab</option>
-                                <option value="3">Pizza</option>
-                                <option value="4">Deser</option>
+                                <option>Wybierz</option>
+                                { items.map((opt)=>
+                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                )}
                                 </Form.Select>
                             </Form.Group>
                         </Col>

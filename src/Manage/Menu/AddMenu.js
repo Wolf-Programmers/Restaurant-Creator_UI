@@ -1,7 +1,6 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
+import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
-
 
 function AddMenu()
 {
@@ -10,29 +9,40 @@ function AddMenu()
     let user = JSON.parse(localStorage.getItem('user-info'))
     const [creatorId, setCreatorId]=useState(user.id)
     const [name, setName]=useState("")
-    const [menuTypeId, setMenuTypeId]=useState("1")
+    const [menuTypes, setMenuTypes]=useState([])
+    const [menuTypeId, setMenuTypeId]=useState("")
     const [restaurants, setRestaurants]=useState([])
     const [restaurantId, setRestaurantId]=useState("")
 
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState("")
+
+    const handleClose = () => setShow(false);
+
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
         
             data = await data.json()
-            console.warn(data)
-            console.warn(data.value)
             data = data.value
             setRestaurants(data)
         }
-        fetchData();
-        console.warn(JSON.stringify(restaurants))
+        async function fetchMenuTypeData(){
+            let data = await fetch("http://localhost:8080/menu/get-menu-types");
+            
+                data = await data.json()
+                data = data.value
+                setMenuTypes(data)
+            }
+        fetchData()
+        fetchMenuTypeData()
     },[]);
 
     async function create(){
         let item={creatorId, name, menuTypeId, restaurantId}
         console.warn(item)
 
-        let result = await fetch("http://creator.azurewebsites.net/menu/create/",{
+        let result = await fetch("http://localhost:8080/menu/create/",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{
@@ -45,13 +55,26 @@ function AddMenu()
         if(result.status === 1){
         }
         else{
-            console.warn(result) 
-            console.warn(result.errorList)
+            setErrorMessage(result.message)
+            setShow(true)
         }
     }
 
     return(
         <div>
+             <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Błąd</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    {errorMessage}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Zamknij
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
                     <Col sm={12}><h2>Dodaj menu</h2></Col> 
@@ -78,10 +101,10 @@ function AddMenu()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Typ</Form.Label>
                                 <Form.Select value={menuTypeId} onChange={(e)=>setMenuTypeId(e.target.value)}>
-                                <option value="1">Burger</option>
-                                <option value="2">Kebab</option>
-                                <option value="3">Pizza</option>
-                                <option value="4">Deser</option>
+                                <option>Wybierz</option>
+                                { menuTypes.map((opt)=>
+                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                )}
                                 </Form.Select>
                             </Form.Group>
                         </Col>

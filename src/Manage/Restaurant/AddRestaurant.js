@@ -1,17 +1,10 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
+import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
 import {useNavigate, Link} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import Header from "../../Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TimePicker from '@mui/lab/TimePicker';
-import DateTimePicker from '@mui/lab/DateTimePicker';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import MobileDatePicker from '@mui/lab/MobileDatePicker';
+
 function AddRestaurant()
 {
     
@@ -39,11 +32,13 @@ function AddRestaurant()
     const [sunC, setSunC]=useState("")
     const [type, setType]=useState([])
     const [typeSelected, setTypeSelected]=useState()
-    const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
 
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState([])
+
+    const handleClose = () => setShow(false);
+
+
     useEffect (()=>{
         async function fetchData(){
         let data = await fetch("http://creator.azurewebsites.net/restaurant/get-types");
@@ -114,18 +109,35 @@ function AddRestaurant()
         result = await result.json()
         
         if(result.status === 1){
-            navigate('/')
+            navigate('/manage/restaurant')
         }
         else{
-            console.warn(result) 
-            console.warn(result.errorList) 
-            console.warn(type)   
+            errorMessage.length = 0
+            errorMessage.push("")
+            errorMessage.push(result.errorList.email)
+            errorMessage.push(result.errorList.phoneNumber)
+            console.warn(errorMessage)
+            console.warn(result)
+            setShow(true)   
         }
     }
 
     return(
         <div>
             <Header/>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Błąd</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    { errorMessage.map((item) => <p>{item}</p>) }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Zamknij
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
                 <Col sm={12} md={10}>
@@ -188,97 +200,77 @@ function AddRestaurant()
                         <Col sm={12}>
                            <h5 className="mt-2">Godziny otwarcia</h5>
                         </Col>
-                        <Col sm={12} md={2}>
+                        <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Poniedziałek</Form.Label>
                                 <Row className="justify-content-center">
-                                    <Col sm={5}><Form.Control type="input" value={monO} onChange={(e)=>setMonO(e.target.value)}/></Col>
+                                    <Col sm={5}><Form.Control type="time" value={monO} onChange={(e)=>setMonO(e.target.value)}/></Col>
                                     -
-                                    <Col sm={5}><Form.Control type="input" value={monC} onChange={(e)=>setMonC(e.target.value)}/></Col>
+                                    <Col sm={5}><Form.Control type="time" value={monC} onChange={(e)=>setMonC(e.target.value)}/></Col>
                                 </Row>
                             </Form.Group>
                         </Col>
-                        <Col sm={12} md={2}>
+                        <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <Stack spacing={3}>
-                                        <TimePicker
-                                            label="Time"
-                                            value={value}
-                                            onChange={handleChange}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </Stack>
-                                </LocalizationProvider>
                                 <Form.Label className="float-start">Wtorek</Form.Label>
                                 <Row className="justify-content-center">
-                                <Col sm={5}><Form.Control type="input" value={tueO} onChange={(e)=>setTueO(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={tueO} onChange={(e)=>setTueO(e.target.value)}/></Col>
                                 -
-                                <Col sm={5}><Form.Control type="input" value={tueC} onChange={(e)=>setTueC(e.target.value)}/></Col>
-                                </Row>
-                            </Form.Group>
-                        </Col>
-                        <Col sm={12} md={2}>
-                            <Form.Group className="mb-3">
-                                <Form.Label className="float-start">Środa</Form.Label>
-                                <Row className="justify-content-center">
-                                <Col sm={5}><Form.Control type="input" value={wedO} onChange={(e)=>setWedO(e.target.value)}/></Col>
-                                -
-                                <Col sm={5}><Form.Control type="input" value={wedC} onChange={(e)=>setWedC(e.target.value)}/></Col>
-                                </Row>
-                            </Form.Group>
-                        </Col>
-                        <Col sm={12} md={2}>
-                            <Form.Group className="mb-3">
-                                <Form.Label className="float-start">Czwartek</Form.Label>
-                                <Row className="justify-content-center">
-                                <Col sm={5}><Form.Control type="input" value={thuO} onChange={(e)=>setThuO(e.target.value)}/></Col>
-                                -
-                                <Col sm={5}><Form.Control type="input" value={thuC} onChange={(e)=>setThuC(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={tueC} onChange={(e)=>setTueC(e.target.value)}/></Col>
                                 </Row>
                             </Form.Group>
                         </Col>
                         <div className="clearfix"></div>
-                        <Col sm={12} md={2}>
+                        <Col sm={12} md={4}>
+                            <Form.Group className="mb-3">
+                                <Form.Label className="float-start">Środa</Form.Label>
+                                <Row className="justify-content-center">
+                                <Col sm={5}><Form.Control type="time" value={wedO} onChange={(e)=>setWedO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="time" value={wedC} onChange={(e)=>setWedC(e.target.value)}/></Col>
+                                </Row>
+                            </Form.Group>
+                        </Col>
+                        <Col sm={12} md={4}>
+                            <Form.Group className="mb-3">
+                                <Form.Label className="float-start">Czwartek</Form.Label>
+                                <Row className="justify-content-center">
+                                <Col sm={5}><Form.Control type="time" value={thuO} onChange={(e)=>setThuO(e.target.value)}/></Col>
+                                -
+                                <Col sm={5}><Form.Control type="time" value={thuC} onChange={(e)=>setThuC(e.target.value)}/></Col>
+                                </Row>
+                            </Form.Group>
+                        </Col>
+                        <div className="clearfix"></div>
+                        <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Piątek</Form.Label>
                                 <Row className="justify-content-center">
-                                <Col sm={5}><Form.Control type="input" value={friO} onChange={(e)=>setFriO(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={friO} onChange={(e)=>setFriO(e.target.value)}/></Col>
                                 -
-                                <Col sm={5}><Form.Control type="input" value={friC} onChange={(e)=>setFriC(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={friC} onChange={(e)=>setFriC(e.target.value)}/></Col>
                                 </Row>
                             </Form.Group>
                         </Col>
-                        <Col sm={12} md={2}>
+                        <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                             <Form.Label className="float-start">Sobota</Form.Label>
                             <Row className="justify-content-center">
-                                <Col sm={5}><Form.Control type="input" value={satO} onChange={(e)=>setSatO(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={satO} onChange={(e)=>setSatO(e.target.value)}/></Col>
                                 -
-                                <Col sm={5}><Form.Control type="input" value={satC} onChange={(e)=>setSatC(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={satC} onChange={(e)=>setSatC(e.target.value)}/></Col>
                                 </Row>
                             </Form.Group>
                         </Col>
-                        <Col sm={12} md={2}>
+                        <div className="clearfix"></div>
+                        <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Niedziela</Form.Label>
                             <Row className="justify-content-center">
-                                <Col sm={5}><Form.Control type="input" value={sunO} onChange={(e)=>setSunO(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={sunO} onChange={(e)=>setSunO(e.target.value)}/></Col>
                                 -
-                                <Col sm={5}><Form.Control type="input" value={sunC} onChange={(e)=>setSunC(e.target.value)}/></Col>
+                                <Col sm={5}><Form.Control type="time" value={sunC} onChange={(e)=>setSunC(e.target.value)}/></Col>
                                 </Row>
-                            </Form.Group>
-                        </Col>
-                        <Col sm={12} md={8}>
-                            <Form.Group className="mb-3">
-                                <Form.Label className="float-start">Opis</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
-                            </Form.Group>
-                        </Col>
-                        <Col sm={12} md={8}>
-                            <Form.Group className="mb-3">
-                                <Form.Label className="float-start">Zdjecie</Form.Label>
-                                <Form.Control type="file" />
                             </Form.Group>
                         </Col>
                         <Col sm={12}>
