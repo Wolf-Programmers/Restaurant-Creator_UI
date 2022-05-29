@@ -51,8 +51,12 @@ function AddMenu()
         })
 
         result = await result.json()
-        
+        console.log(result)
         if(result.status === 1){
+            alert("Dodano pomyślnie!");
+            setName("")
+            setMenuTypeId("")
+            setRestaurantId("")
         }
         else{
             setErrorMessage(result.message)

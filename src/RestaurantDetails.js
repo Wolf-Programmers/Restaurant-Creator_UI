@@ -135,7 +135,7 @@ function RestaurantDetails(props)
                         <h6 className="float-md-end">{today(item.dayOfWeek)}:</h6>
                     </Col>
                     <Col sm={12} md={4}>
-                        <h6 className="float-md-start">{item.from} - {item.to}</h6>
+                        <h6 className="float-md-start">{item.from.substring(0,5)} - {item.to.substring(0,5)}</h6>
                     </Col>
                 </Row>
                 )}

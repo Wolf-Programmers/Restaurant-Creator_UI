@@ -1,4 +1,4 @@
-import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
+import { Col, Container, Row, Form, Button, Modal, Alert} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 
@@ -10,7 +10,7 @@ function AddItem()
     const [title, setTitle]=useState("")
     const [desc, setDesc]=useState("Bardzo smaczna potrawa")
     const [quantity, setQuantity]=useState("")
-    const [price, setPrice]=useState("")
+    const [prices, setPrices]=useState("")
     const [unit, setUnit]=useState("")
     const [restaurants, setRestaurants]=useState([])
     const [restaurantId, setRestaurantId]=useState("")
@@ -25,14 +25,12 @@ function AddItem()
     useEffect (()=>{
         async function fetchData(){
         let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
-        
             data = await data.json()
             data = data.value
             setRestaurants(data)
         }
         async function fetchItemTypeData(){
             let data = await fetch("http://localhost:8080/item/get-item-types");
-            
                 data = await data.json()
                 data = data.value
                 setItems(data)
@@ -42,10 +40,8 @@ function AddItem()
     },[]);
 
     async function create(){
-
+        let price = parseFloat(prices.replace(',', '.'))
         let item={title, desc, quantity, price, unit, restaurantId, itemType}
-        console.warn(item)
-
         let result = await fetch("http://localhost:8080/item/create/",{
             method:'PUT',
             body:JSON.stringify(item),
@@ -57,12 +53,21 @@ function AddItem()
         result = await result.json()
         
         if(result.status === 1){
+            alert("Dodano pomyślnie!");
+            setTitle("")
+            setDesc("")
+            setQuantity("")
+            setPrices("")
+            setUnit("")
+            setRestaurantId("")
+            setItemType("")
         }
         else{
             errorMessage.length=0
             errorMessage.push(result.errorList.title)
             errorMessage.push(result.errorList.quantity)
             errorMessage.push(result.errorList.price)
+            errorMessage.push(result.errorList.unit)
             setShow(true)
         }
     }
@@ -97,7 +102,7 @@ function AddItem()
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Cena</Form.Label>
-                                <Form.Control type="input" value={price} onChange={(e)=>setPrice(e.target.value)}/>
+                                <Form.Control type="input" value={prices} onChange={(e)=>setPrices(e.target.value)}/>
                             </Form.Group>
                         </Col>
                         <div className="clearfix"></div>
@@ -118,7 +123,7 @@ function AddItem()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Restauracja</Form.Label>
                                 <Form.Select value={restaurantId} onChange={(e)=>setRestaurantId(e.target.value)}>
-                                <option>Wybierz</option>
+                                <option value="">Wybierz</option>
                                 { restaurants.map((opt)=>
                                             <option key={opt.id} value={opt.id}>{opt.name}</option>
                                 )}
@@ -129,7 +134,7 @@ function AddItem()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Typ</Form.Label>
                                 <Form.Select value={itemType} onChange={(e)=>setItemType(e.target.value)}>
-                                <option>Wybierz</option>
+                                <option value="">Wybierz</option>
                                 { items.map((opt)=>
                                             <option key={opt.id} value={opt.id}>{opt.name}</option>
                                 )}

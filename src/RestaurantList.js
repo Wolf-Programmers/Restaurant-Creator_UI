@@ -63,7 +63,7 @@ function RestaurantList()
                         </Col>
                         <Col md={7}>
                             <Row>
-                                <Col md={8}>
+                                <Col className="mb-4" md={8}>
                                     <h2>{item.name}</h2>
                                 </Col>
                                  <Col md={4}>
@@ -76,9 +76,7 @@ function RestaurantList()
                                     <h6><FontAwesomeIcon icon={faPhone} />{item.phoneNumber}</h6>
                                  </Col>
                                  <Col md={12}>
-                                    <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida erat a venenatis aliquet. Fusce ornare rutrum congue. Aenean ex justo, bibendum in erat eget, aliquet facilisis urna. Sed aliquet laoreet tristique. Sed blandit augue a ultricies vulputate. Vivamus vehicula nisl vitae arcu eleifend, eget rhoncus tellus placerat.
-                                    </p>
+                                    <div className="mb-5"></div>
                                  </Col>
                                  <Col>
                                  <a href={"/restaurant/" + item.id}><Button variant="danger" className="float-end" >Więcej</Button></a>

@@ -38,7 +38,7 @@ function AddItemToMenu()
         }
         async function fetchMenuData(){
                 let data = await fetch("http://localhost:8080/menu/show-menu-by-owner?ownerId=" + user.id);
-                
+                console.warn(data)
                     data = await data.json()
                     data = data.value
                     setMenu(data)
@@ -49,6 +49,7 @@ function AddItemToMenu()
     },[]);
 
     async function create(){
+        console.warn(menu)
         let item={itemId, restaurantId, menuId}
         console.warn(item)
 
@@ -63,6 +64,10 @@ function AddItemToMenu()
         result = await result.json()
         
         if(result.status === 1){
+            alert("Dodano pomyślnie!");
+            setItemId("")
+            setRestaurantId("")
+            setMenuId("")
         }
         else{
             setErrorMessage(result.message)
@@ -92,10 +97,12 @@ function AddItemToMenu()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Restauracja</Form.Label>
                                 <Form.Select value={restaurantId} onChange={(e)=>setRestaurantId(e.target.value)}>
-                                <option>Wybierz</option>
-                                { restaurants.map((opt)=>
+                                <option value="">Wybierz</option>
+                                { restaurants && restaurants.length?
+                                restaurants.map((opt)=>
                                             <option key={opt.id} value={opt.id}>{opt.name}</option>
-                                )}
+                                    ):<></>
+                                }
                                 </Form.Select>
                             </Form.Group>
                         </Col>
@@ -104,7 +111,7 @@ function AddItemToMenu()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Menu</Form.Label>
                                 <Form.Select value={menuId} onChange={(e)=>setMenuId(e.target.value)}>
-                                <option>Wybierz</option>
+                                <option value="">Wybierz</option>
                                 { menu.map((opt)=>
                                             <option key={opt.id} value={opt.id}>{opt.name}</option>
                                 )}
@@ -116,7 +123,7 @@ function AddItemToMenu()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Pozycja</Form.Label>
                                 <Form.Select value={itemId} onChange={(e)=>setItemId(e.target.value)}>
-                                <option>Wybierz</option>
+                                <option value="">Wybierz</option>
                                 { items.map((opt)=>
                                     <option key={opt.id} value={opt.id}>{opt.title}</option>
                                 )}

@@ -15,6 +15,7 @@ function AddRestaurant()
     const [address, setAddress]=useState("")
     const [phoneNumber, setPhone]=useState("")
     const [email, setEmail]=useState("")
+    const [voivodeshipList, setVoivodeshipList]=useState([])
     const [voivodeship, setVoivodeship]=useState("")
     const [monO, setMonO]=useState("")
     const [tueO, setTueO]=useState("")
@@ -43,12 +44,19 @@ function AddRestaurant()
         async function fetchData(){
         let data = await fetch("http://creator.azurewebsites.net/restaurant/get-types");
             data = await data.json()
-            console.warn(data)
             data = await data.value
-            console.warn(data)
         setType(data)
         }
+        async function fetchVoivodeshipData(){
+            let data = await fetch("http://creator.azurewebsites.net/restaurant//get-voivodeship");
+                data = await data.json()
+                console.warn(data)
+                data = await data.value
+                console.warn(data)
+            setVoivodeshipList(data)
+            }
         fetchData();
+        fetchVoivodeshipData()
     },[]);
 
     async function create(){
@@ -109,6 +117,7 @@ function AddRestaurant()
         result = await result.json()
         
         if(result.status === 1){
+            alert("Dodano pomyślnie!");
             navigate('/manage/restaurant')
         }
         else{
@@ -116,6 +125,10 @@ function AddRestaurant()
             errorMessage.push("")
             errorMessage.push(result.errorList.email)
             errorMessage.push(result.errorList.phoneNumber)
+            errorMessage.push(result.errorList.address)
+            errorMessage.push(result.errorList.city)
+            errorMessage.push(result.errorList.voivodeship)
+            errorMessage.push(result.errorList.openingTimes)
             console.warn(errorMessage)
             console.warn(result)
             setShow(true)   
@@ -156,7 +169,7 @@ function AddRestaurant()
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Typ kuchni</Form.Label>
                                 <Form.Select aria-label="Default select example" value={typeSelected} onChange={(e)=>setTypeSelected(e.target.value)}>
-                                    <option>Wybierz</option>
+                                    <option value="">Wybierz</option>
                                     {
                                         type.map((opt)=>
                                             <option key={opt.id} value={opt.id}>{opt.name}</option>
@@ -185,16 +198,23 @@ function AddRestaurant()
                                 <Form.Control type="input" value={address} onChange={(e)=>setAddress(e.target.value)}/>
                             </Form.Group>
                         </Col>
-                        <Col sm={12} md={3}>
+                        <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Miasto</Form.Label>
                                 <Form.Control type="input" value={city} onChange={(e)=>setCity(e.target.value)}/>
                             </Form.Group>
                         </Col>
-                        <Col sm={12} md={2}>
+                        <Col sm={12} md={3}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Województwo</Form.Label>
-                                <Form.Control type="input" value={voivodeship} onChange={(e)=>setVoivodeship(e.target.value)}/>
+                                <Form.Select value={voivodeship} onChange={(e)=>setVoivodeship(e.target.value)}>
+                                    <option value="">Wybierz</option>
+                                    {
+                                        voivodeshipList.map((opt)=>
+                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                        )
+                                    }
+                                </Form.Select>
                             </Form.Group>
                         </Col>
                         <Col sm={12}>
