@@ -113,7 +113,7 @@ function AddItemToMenu()
                                 <Form.Select value={menuId} onChange={(e)=>setMenuId(e.target.value)}>
                                 <option value="">Wybierz</option>
                                 { menu.map((opt)=>
-                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                            <option key={opt.id} value={opt.menuId}>{opt.name}</option>
                                 )}
                                 </Form.Select>
                             </Form.Group>
