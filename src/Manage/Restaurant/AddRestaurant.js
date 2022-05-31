@@ -153,7 +153,7 @@ function AddRestaurant()
                 </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
-                <Col sm={12} md={10}>
+                    <Col sm={12} md={10}>
                         <Link to="/manage/restaurant">
                             <Button className='float-start ' variant='danger'><FontAwesomeIcon icon={faChevronLeft} /></Button>
                         </Link>

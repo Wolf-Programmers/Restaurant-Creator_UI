@@ -1,6 +1,10 @@
 import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
+import Header from "../../Header";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+
 
 function AddEmployee()
 {
@@ -31,9 +35,10 @@ function AddEmployee()
             setRestaurants(data)
         }
         async function fetchRolesData(){
-            let data = await fetch("http://creator.azurewebsites.net/restaurant/get-roles");
+            let data = await fetch("http://creator.azurewebsites.net/employee/get-roles");
                 data = await data.json()
                 data = data.value
+                console.warn(data)
                 setEmployeeRoles(data)
             }
         fetchData()
@@ -57,14 +62,7 @@ function AddEmployee()
         
         if(result.status === 1){
             alert("Dodano pomyślnie!");
-            setName("")
-            setLastName("")
-            setPhone("")
-            setEmail("")
-            setPassword("")
-            setSalary("")
-            setRestaurantId("")
-            setEmployeeRoleId("")
+            navigate('/manage/employee')
         }
         else{
             errorMessage.length = 0
@@ -83,6 +81,7 @@ function AddEmployee()
 
     return(
         <div>
+            <Header/>
             <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Błąd</Modal.Title>
@@ -98,6 +97,11 @@ function AddEmployee()
                 </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
+                    <Col sm={12} md={10}>
+                        <Link to="/manage/employee">
+                            <Button className='float-start ' variant='danger'><FontAwesomeIcon icon={faChevronLeft} /></Button>
+                        </Link>
+                    </Col>
                     <Col sm={12}><h2>Dodaj pracownika</h2></Col> 
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">

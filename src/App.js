@@ -11,6 +11,7 @@ import ManageEmploee from './Manage/ManageEmployee';
 import AddRestaurant from './Manage/Restaurant/AddRestaurant';
 import EditRestaurant from './Manage/Restaurant/EditRestaurant';
 import { useState } from 'react';
+import AddEmployee from './Manage/Employee/AddEmployee';
 
 function App() {
   const [cartItems, setCartItems] = useState([])
@@ -50,7 +51,8 @@ function App() {
         <Route path='/manage/restaurant' element={<ManageRestaurant/>}/>
         <Route path='/manage/restaurant/add' element={<AddRestaurant/>}/>
         <Route path='/manage/restaurant/:id' element={<EditRestaurant/>}/>
-        <Route path='/manage/emploee' element={<ManageEmploee/>} />
+        <Route path='/manage/employee' element={<ManageEmploee/>} />
+        <Route path='/manage/employee/add' element={<AddEmployee/>}/>
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
         <Route path='*' element={<RestaurantSearch/>} />

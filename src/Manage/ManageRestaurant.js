@@ -27,7 +27,7 @@ function ManageRestaurant()
 
     async function deleteRestaurant(RestaurantId){
         console.warn(RestaurantId)
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/delete?restaurantId=" + RestaurantId);
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/delete?restaurantId=" + RestaurantId);
         console.warn(data)
     }
 

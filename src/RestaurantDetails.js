@@ -52,7 +52,7 @@ export default function RestaurantDetails(props)
         
         }
         async function fetchMenuData(){
-            let data = await fetch("http://localhost:8080/menu/show-restaurant-menus?restaurantId=" + id);
+            let data = await fetch("http://creator.azurewebsites.net/menu/show-restaurant-menus?restaurantId=" + id);
                 data = await data.json()
                 console.warn(data.value)
                 console.warn(data)
