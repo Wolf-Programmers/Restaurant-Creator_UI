@@ -54,9 +54,7 @@ function AddMenu()
         console.log(result)
         if(result.status === 1){
             alert("Dodano pomyślnie!");
-            setName("")
-            setMenuTypeId("")
-            setRestaurantId("")
+            window.location.reload(false);
         }
         else{
             setErrorMessage(result.message)

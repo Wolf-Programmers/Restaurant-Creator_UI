@@ -39,5 +39,18 @@
 
 .cart{
   position: absolute;
+  position: fixed;
   right: 50px;
+}
+
+.menu-bg{
+  background-color: #d9534f;
+  color: #fff;
+  padding: 10px;
+}
+
+.restaurant-info{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 30px;
 }

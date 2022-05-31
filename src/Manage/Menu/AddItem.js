@@ -54,13 +54,7 @@ function AddItem()
         
         if(result.status === 1){
             alert("Dodano pomyślnie!");
-            setTitle("")
-            setDesc("")
-            setQuantity("")
-            setPrices("")
-            setUnit("")
-            setRestaurantId("")
-            setItemType("")
+            window.location.reload(false);
         }
         else{
             errorMessage.length=0

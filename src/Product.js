@@ -23,6 +23,9 @@ export default function Product(props) {
             <Col sm={12} md={8}>
                 <Button variant="danger" className="float-end" onClick={() => onAdd(product)}>Dodaj</Button>
             </Col>
+            <Col md={9}>
+            <hr/>
+            </Col>
         </Row>
   )
 }

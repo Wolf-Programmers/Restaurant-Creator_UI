@@ -52,7 +52,7 @@ export default function RestaurantDetails(props)
         
         }
         async function fetchMenuData(){
-            let data = await fetch("http://creator.azurewebsites.net/menu/show-restaurant-menus?restaurantId=" + id);
+            let data = await fetch("http://localhost:8080/menu/show-restaurant-menus?restaurantId=" + id);
                 data = await data.json()
                 console.warn(data.value)
                 console.warn(data)
@@ -90,7 +90,9 @@ export default function RestaurantDetails(props)
             <Button className="mt-3 cart" variant="danger" onClick={handleOpen}>
                 <FontAwesomeIcon icon={faCartShopping} />
             </Button>
-            <Row className="mt-4">
+            <Row>
+            <Col md={4} className="mt-4 restaurant-info">
+                <Row className="restaurant-info">
                 <Col sm={12}>
                 <h1>{restaurant.name}</h1>
                 </Col>
@@ -116,16 +118,17 @@ export default function RestaurantDetails(props)
                 </Row>
                 )}
                 </Col>
-            </Row>
-            <Row className="mt-4 justify-content-center">
+                </Row>
+            </Col>
+            <Col md={7} className="mt-4 justify-content-center">
                 <Col md={12} className="mt-5">
                 <h1>Menu</h1>
                 {menu.map((type)=>
                 <Row key={menu.id} className="mb-4 justify-content-center">
-                    <Col sm={12} md={8} >
+                    <Col sm={12} md={8} className="menu-bg mb-3">
                     <h3 className="float-md-start">{type.menuName}</h3>
                     </Col>
-                    <Col sm={12} md={2} >
+                    <Col sm={12} md={2} className="menu-bg mb-3">
                         <p className="float-md-end">{type.menuTypeName}</p>
                     </Col>
                     <div className="clearfix"></div>
@@ -135,8 +138,9 @@ export default function RestaurantDetails(props)
                 </Row>
                 )}
                 </Col>
+                </Col>
                 </Row>
             </Container>
         </div>
-    )
+    );
 }
