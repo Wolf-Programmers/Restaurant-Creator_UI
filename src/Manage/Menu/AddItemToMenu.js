@@ -21,7 +21,7 @@ function AddItemToMenu()
 
     useEffect (()=>{
         async function fetchItemsData(){
-        let data = await fetch("http://localhost:8080/item/show-item-by-owner?ownerId=" + user.id);
+        let data = await fetch("http://creator.azurewebsites.net/item/show-item-by-owner?ownerId=" + user.id);
         
             data = await data.json()
             console.warn(data)
@@ -30,14 +30,14 @@ function AddItemToMenu()
             setItems(data)
         }
         async function fetchRestaurantsData(){
-            let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
+            let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
             
                 data = await data.json()
                 data = data.value
                 setRestaurants(data)
         }
         async function fetchMenuData(){
-                let data = await fetch("http://localhost:8080/menu/show-menu-by-owner?ownerId=" + user.id);
+                let data = await fetch("http://creator.azurewebsites.net/menu/show-menu-by-owner?ownerId=" + user.id);
                 console.warn(data)
                     data = await data.json()
                     data = data.value
@@ -53,7 +53,7 @@ function AddItemToMenu()
         let item={itemId, restaurantId, menuId}
         console.warn(item)
 
-        let result = await fetch("http://localhost:8080/menu/add-item/",{
+        let result = await fetch("http://creator.azurewebsites.net/menu/add-item/",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{

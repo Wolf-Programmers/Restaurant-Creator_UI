@@ -20,13 +20,13 @@ function AddEmployee()
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
             data = await data.json()
             data = data.value
             setRestaurants(data)
         }
         async function fetchRolesData(){
-            let data = await fetch("http://localhost:8080/restaurant/get-roles");
+            let data = await fetch("http://creator.azurewebsites.net/restaurant/get-roles");
                 data = await data.json()
                 data = data.value
                 setEmployeeRoles(data)
