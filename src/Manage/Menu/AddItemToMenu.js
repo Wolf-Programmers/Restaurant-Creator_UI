@@ -65,9 +65,7 @@ function AddItemToMenu()
         
         if(result.status === 1){
             alert("Dodano pomyślnie!");
-            setItemId("")
-            setRestaurantId("")
-            setMenuId("")
+            window.location.reload(false);
         }
         else{
             setErrorMessage(result.message)

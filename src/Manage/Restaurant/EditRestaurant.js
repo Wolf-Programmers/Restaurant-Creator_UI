@@ -16,6 +16,7 @@ function EditRestaurant(props)
     const [address, setAddress]=useState("")
     const [phoneNumber, setPhone]=useState("")
     const [email, setEmail]=useState("")
+    const [voivodeshipList, setVoivodeshipList]=useState([])
     const [voivodeship, setVoivodeship]=useState("")
     const [monO, setMonO]=useState("")
     const [tueO, setTueO]=useState("")
@@ -38,7 +39,6 @@ function EditRestaurant(props)
         async function fetchRestaurantData(){
             let data = await fetch("http://creator.azurewebsites.net/restaurant/info?id=" + id);
                 data = await data.json()
-                console.warn(data.value)
     
                 if(data.status === 1){
                     data = await data.value
@@ -74,13 +74,19 @@ function EditRestaurant(props)
         async function fetchData(){
         let data = await fetch("http://creator.azurewebsites.net/restaurant/get-types");
             data = await data.json()
-            console.warn(data)
             data = await data.value
-            console.warn(data)
         setType(data)
+        }
+        async function fetchVoivodeshipData(){
+            let data = await fetch("http://creator.azurewebsites.net/restaurant//get-voivodeship");
+                data = await data.json()
+                data = await data.value
+                console.warn(data)
+            setVoivodeshipList(data)
         }
         fetchData();
         fetchRestaurantData()
+        fetchVoivodeshipData()
     },[]);
 
     async function create(){
@@ -174,7 +180,7 @@ function EditRestaurant(props)
                                     <option>Wybierz</option>
                                     {
                                         type.map((opt)=>
-                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                            <option key={opt.id} value={opt.name}>{opt.name}</option>
                                         )
                                     }
                                 </Form.Select>
@@ -200,16 +206,23 @@ function EditRestaurant(props)
                                 <Form.Control type="input" value={address} onChange={(e)=>setAddress(e.target.value)}/>
                             </Form.Group>
                         </Col>
-                        <Col sm={12} md={3}>
+                        <Col sm={12} md={2}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Miasto</Form.Label>
                                 <Form.Control type="input" value={city} onChange={(e)=>setCity(e.target.value)}/>
                             </Form.Group>
                         </Col>
-                        <Col sm={12} md={2}>
+                        <Col sm={12} md={3}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Województwo</Form.Label>
-                                <Form.Control type="input" value={voivodeship} onChange={(e)=>setVoivodeship(e.target.value)}/>
+                                <Form.Select value={voivodeship} onChange={(e)=>setVoivodeship(e.target.value)}>
+                                    <option value="">Wybierz</option>
+                                    {
+                                        voivodeshipList.map((opt)=>
+                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                        )
+                                    }
+                                </Form.Select>
                             </Form.Group>
                         </Col>
                         <Col sm={12}>

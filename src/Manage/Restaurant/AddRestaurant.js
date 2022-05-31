@@ -211,7 +211,7 @@ function AddRestaurant()
                                     <option value="">Wybierz</option>
                                     {
                                         voivodeshipList.map((opt)=>
-                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                            <option key={opt.id} value={opt.name}>{opt.name}</option>
                                         )
                                     }
                                 </Form.Select>

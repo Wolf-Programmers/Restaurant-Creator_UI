@@ -5,15 +5,17 @@ import Header from './Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faMapLocation, faPhone, faEnvelope, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import {useNavigate } from 'react-router-dom';
+import Basket from "./Basket";
+import Product from "./Product";
 
-function RestaurantDetails(props)
+export default function RestaurantDetails(props)
 {   
     let navigate = useNavigate();
     let {id} = useParams();
+    const {cartItems, onAdd, onRemove} = props
     const [restaurant, setRestaurant]=useState({})
     const [opening, setOpening]=useState([])
     const [menu, setMenu]=useState([])
-    const [cart, setCart]=useState([])
     const [show, setShow] = useState(false);
     
 
@@ -31,12 +33,6 @@ function RestaurantDetails(props)
         weekdays[6] = "Sobota";
         weekdays[7] = "Niedziela";
         return weekdays[day]
-    }
-    
-    function addItem(item){  
-        cart.push(item)   
-        console.warn(item)
-        console.warn(cart)
     }
 
     useEffect (()=>{
@@ -74,7 +70,6 @@ function RestaurantDetails(props)
         console.warn(JSON.stringify(restaurant))
     },[]);
 
-
     return(
         <div>
             <Header/>
@@ -83,26 +78,7 @@ function RestaurantDetails(props)
                     <Modal.Title>Koszyk</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                { 
-                cart && cart.length?
-                cart.map((item) => 
-                <Row>
-                    <Col sm={8}>
-                    <h5>{item.title}</h5>
-                    </Col>
-                    <Col sm={4}>
-                    <p className="float-end" >{item.quantity}{item.unit}</p>
-                    </Col>
-                    <Col sm={12}>
-                    {item.describe}
-                    </Col>
-                    <Col sm={11}>
-                    <h6 className="float-end">{item.price}zł</h6>
-                    </Col>
-                </Row>
-                ) 
-                :<p>Koszyk jest pusty</p>
-                }
+                    <Basket cartItems={cartItems} onAdd={onAdd} onRemove={onRemove}/>
                 </Modal.Body>
                 <Modal.Footer>
                    <Button variant="danger" onClick={handleClose}>
@@ -153,26 +129,8 @@ function RestaurantDetails(props)
                         <p className="float-md-end">{type.menuTypeName}</p>
                     </Col>
                     <div className="clearfix"></div>
-                    {type.itemsList.map((item)=>
-                    <Row key={item.id} className="mb-3 justify-content-center">
-                        <Col sm={12} md={6} >
-                            <h6 className="float-md-start">{item.title}</h6>
-                        </Col>
-                        <Col sm={12} md={2} >
-                            <p className="float-md-end">{item.quantity}{item.unit}</p>
-                        </Col>
-                        <div className="clearfix"></div>
-                        <Col sm={12} md={8} >
-                            <h6>Cena: {item.price} zł</h6>
-                        </Col>
-                        <div className="clearfix"></div>
-                        <Col sm={12} md={8} >
-                            <p>{item.describe}</p>
-                        </Col>
-                        <Col sm={12} md={8}>
-                            <Button variant="danger" className="float-end" onClick={(e) => addItem(item, e)}>Kup</Button>
-                        </Col>
-                    </Row>
+                    {type.itemsList.map((product)=>
+                     <Product key={product.id} product={product} onAdd={onAdd}/>
                     )}
                 </Row>
                 )}
@@ -182,5 +140,3 @@ function RestaurantDetails(props)
         </div>
     )
 }
-
-export default RestaurantDetails

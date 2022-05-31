@@ -13,8 +13,28 @@ function AddEmployee()
     const [email, setEmail]=useState("")
     const [password, setPassword]=useState("")
     const [salary, setSalary]=useState()
-    const [restaurantId, setRestaurantId]=useState()
+    const [restaurants, setRestaurants]=useState([])
+    const [restaurantId, setRestaurantId]=useState() 
+    const [employeeRoles, setEmployeeRoles]=useState()
     const [employeeRoleId, setEmployeeRoleId]=useState()
+
+    useEffect (()=>{
+        async function fetchData(){
+        let data = await fetch("http://localhost:8080/restaurant/get-restaurants?ownerId=" + user.id);
+            data = await data.json()
+            data = data.value
+            setRestaurants(data)
+        }
+        async function fetchRolesData(){
+            let data = await fetch("http://localhost:8080/restaurant/get-roles");
+                data = await data.json()
+                data = data.value
+                setEmployeeRoles(data)
+            }
+        fetchData()
+        fetchRolesData()
+    },[]);
+
 
     async function create(){
 
@@ -87,13 +107,25 @@ function AddEmployee()
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Restauracja</Form.Label>
-                                <Form.Control type="input" value={restaurantId} onChange={(e)=>setRestaurantId(e.target.value)}/>
+                                <Form.Select value={restaurantId} onChange={(e)=>setRestaurantId(e.target.value)}>
+                                <option value="">Wybierz</option>
+                                { restaurants.map((opt)=>
+                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                )}
+                                </Form.Select>
                             </Form.Group>
                         </Col>
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Rola</Form.Label>
-                                <Form.Control type="input" value={employeeRoleId} onChange={(e)=>setEmployeeRoleId(e.target.value)}/>
+                                <Form.Select value={employeeRoleId} onChange={(e)=>setEmployeeRoleId(e.target.value)}>
+                                <option value="">Wybierz</option>
+                                {   employeeRoles && employeeRoles.length?
+                                    employeeRoles.map((opt)=>
+                                            <option key={opt.id} value={opt.id}>{opt.name}</option>
+                                    ):<></>
+                                }
+                                </Form.Select>
                             </Form.Group>
                         </Col>
                         <Col sm={12}>
