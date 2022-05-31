@@ -125,6 +125,7 @@ function EditRestaurant(props)
         ]
 
         let owner = user.id
+
         let cuisine = parseInt(typeSelected)
         let restaurantTypesList = [{id:cuisine}]
         let item={owner, name, city, address, phoneNumber, email, voivodeship, openingTimes, restaurantTypesList}
