@@ -17,13 +17,13 @@ function ManageEmployee()
 
     useEffect (()=>{
        async function fetchData(){
-       let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+       let data = await fetch("https://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
             data = await data.json()
             data = data.value
             setRestaurants(data)
         }
         async function fetchEmployeeData(){
-            let data = await fetch("http://creator.azurewebsites.net/employee/get-employee-by-owner?ownerId=" + user.id);
+            let data = await fetch("https://creator.azurewebsites.net/employee/get-employee-by-owner?ownerId=" + user.id);
                  data = await data.json()
                  data = data.value
                 console.warn(data)
@@ -35,7 +35,7 @@ function ManageEmployee()
 
     async function deleteRestaurant(RestaurantId){
         console.warn(RestaurantId)
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/delete?restaurantId=" + RestaurantId);
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/delete?restaurantId=" + RestaurantId);
         console.warn(data)
     }
 

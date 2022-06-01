@@ -29,19 +29,19 @@ function EditEmployee(props)
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
             data = await data.json()
             data = data.value
             setRestaurants(data)
         }
         async function fetchRolesData(){
-            let data = await fetch("http://creator.azurewebsites.net/employee/get-roles");
+            let data = await fetch("https://creator.azurewebsites.net/employee/get-roles");
                 data = await data.json()
                 data = data.value
                 setEmployeeRoles(data)
         }
          async function fetchEmployee(){
-            let data = await fetch("http://creator.azurewebsites.net/employee/get-employee?employeeId=" + id);
+            let data = await fetch("https://creator.azurewebsites.net/employee/get-employee?employeeId=" + id);
                 data = await data.json()
                 data = data.value
                 console.warn(data)
@@ -63,7 +63,7 @@ function EditEmployee(props)
         let item={name,lastName, phoneNumber, email, password, salary, restaurantId, employeeRoleId}
         console.warn(item)
 
-        let result = await fetch("http://creator.azurewebsites.net/employee/add-employee/",{
+        let result = await fetch("https://creator.azurewebsites.net/employee/add-employee/",{
             method:'PUT',
             body:JSON.stringify(item),
             headers:{

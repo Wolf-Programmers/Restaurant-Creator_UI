@@ -24,13 +24,13 @@ function AddItem()
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
             data = await data.json()
             data = data.value
             setRestaurants(data)
         }
         async function fetchItemTypeData(){
-            let data = await fetch("http://creator.azurewebsites.net/item/get-item-types");
+            let data = await fetch("https://creator.azurewebsites.net/item/get-item-types");
                 data = await data.json()
                 data = data.value
                 setItems(data)
@@ -42,7 +42,7 @@ function AddItem()
     async function create(){
         let price = parseFloat(prices.replace(',', '.')).toFixed(2)
         let item={title, desc, quantity, price, unit, restaurantId, itemType}
-        let result = await fetch("http://creator.azurewebsites.net/item/create/",{
+        let result = await fetch("https://creator.azurewebsites.net/item/create/",{
             method:'PUT',
             body:JSON.stringify(item),
             headers:{

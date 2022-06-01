@@ -37,7 +37,7 @@ export default function RestaurantDetails(props)
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/info?id=" + id);
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/info?id=" + id);
             data = await data.json()
             console.warn(data.value)
 
@@ -52,7 +52,7 @@ export default function RestaurantDetails(props)
         
         }
         async function fetchMenuData(){
-            let data = await fetch("http://creator.azurewebsites.net/menu/show-restaurant-menus?restaurantId=" + id);
+            let data = await fetch("https://creator.azurewebsites.net/menu/show-restaurant-menus?restaurantId=" + id);
                 data = await data.json()
                 console.warn(data.value)
                 console.warn(data)

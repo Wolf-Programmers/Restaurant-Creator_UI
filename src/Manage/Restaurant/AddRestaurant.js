@@ -42,13 +42,13 @@ function AddRestaurant()
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-types");
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/get-types");
             data = await data.json()
             data = await data.value
         setType(data)
         }
         async function fetchVoivodeshipData(){
-            let data = await fetch("http://creator.azurewebsites.net/restaurant//get-voivodeship");
+            let data = await fetch("https://creator.azurewebsites.net/restaurant//get-voivodeship");
                 data = await data.json()
                 console.warn(data)
                 data = await data.value
@@ -106,7 +106,7 @@ function AddRestaurant()
         let item={owner, name, city, address, phoneNumber, email, voivodeship, openingTimes, restaurantTypesList}
         console.warn(item)
 
-        let result = await fetch("http://creator.azurewebsites.net/restaurant/add/",{
+        let result = await fetch("https://creator.azurewebsites.net/restaurant/add/",{
             method:'PUT',
             body:JSON.stringify(item),
             headers:{

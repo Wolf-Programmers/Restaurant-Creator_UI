@@ -24,7 +24,7 @@ function ManageCupoun()
 
     useEffect (()=>{
         async function fetchData(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
             data = await data.json()
             data = data.value
             setRestaurants(data)
@@ -33,7 +33,7 @@ function ManageCupoun()
     },[]);
 
     async function create(){
-        let data = await fetch("http://creator.azurewebsites.net/restaurant/info?id=" + restaurantId);
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/info?id=" + restaurantId);
             data = await data.json()
             data = data.value
             console.warn(data)
@@ -42,7 +42,7 @@ function ManageCupoun()
         let item={cuponCode, maxUse, restaurantId, value, restaurant}
         console.warn(item)
 
-        let result = await fetch("http://creator.azurewebsites.net/cupon/cupon-create",{
+        let result = await fetch("https://creator.azurewebsites.net/cupon/cupon-create",{
             method:'POST',
             body:JSON.stringify(item),
             headers:{
