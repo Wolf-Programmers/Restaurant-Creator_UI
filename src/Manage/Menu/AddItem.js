@@ -40,7 +40,7 @@ function AddItem()
     },[]);
 
     async function create(){
-        let price = parseFloat(prices.replace(',', '.'))
+        let price = parseFloat(prices.replace(',', '.')).toFixed(2)
         let item={title, desc, quantity, price, unit, restaurantId, itemType}
         let result = await fetch("http://creator.azurewebsites.net/item/create/",{
             method:'PUT',

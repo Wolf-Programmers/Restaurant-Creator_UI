@@ -31,6 +31,7 @@ function Header()
                         <NavDropdown.Item as={Link} to="/manage/menu">Menu</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="/manage/restaurant">Restauracja</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="/manage/employee">Pracownicy</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to="/manage/cupoun">Kupony</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title={user.name}>
                         <NavDropdown.Item onClick={logOut}>Wyloguj</NavDropdown.Item>

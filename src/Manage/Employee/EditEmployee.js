@@ -1,10 +1,14 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
-import {useNavigate} from 'react-router-dom';
+import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
+import {useNavigate, Link, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
+import Header from "../../Header";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
-function AddEmployee()
+
+function EditEmployee(props)
 {
-    
+    let {id} = useParams()
     let navigate = useNavigate();
     let user = JSON.parse(localStorage.getItem('user-info'))
     const [name, setName]=useState("")
@@ -14,9 +18,14 @@ function AddEmployee()
     const [password, setPassword]=useState("")
     const [salary, setSalary]=useState()
     const [restaurants, setRestaurants]=useState([])
-    const [restaurantId, setRestaurantId]=useState() 
+    const [restaurantId, setRestaurantId]=useState()
     const [employeeRoles, setEmployeeRoles]=useState()
     const [employeeRoleId, setEmployeeRoleId]=useState()
+
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState([])
+
+    const handleClose = () => setShow(false);
 
     useEffect (()=>{
         async function fetchData(){
@@ -26,15 +35,28 @@ function AddEmployee()
             setRestaurants(data)
         }
         async function fetchRolesData(){
-            let data = await fetch("http://creator.azurewebsites.net/restaurant/get-roles");
+            let data = await fetch("http://creator.azurewebsites.net/employee/get-roles");
                 data = await data.json()
                 data = data.value
                 setEmployeeRoles(data)
-            }
+        }
+         async function fetchEmployee(){
+            let data = await fetch("http://creator.azurewebsites.net/employee/get-employee?employeeId=" + id);
+                data = await data.json()
+                data = data.value
+                console.warn(data)
+                setName(data.name)
+                setLastName(data.lastName)
+                setPhone(data.phoneNumber)
+                setEmail(data.email)
+                setSalary(data.salary)
+                setRestaurantId(data.restaurant.id)
+                setEmployeeRoleId(data.employeeRoleId)
+        }
         fetchData()
         fetchRolesData()
+        fetchEmployee()
     },[]);
-
 
     async function create(){
 
@@ -52,18 +74,47 @@ function AddEmployee()
         result = await result.json()
         
         if(result.status === 1){
-            navigate('/')
+            alert("Dodano pomyślnie!");
+            navigate('/manage/employee')
         }
         else{
-            console.warn(result) 
-            console.warn(result.errorList)
+            errorMessage.length = 0
+            errorMessage.push("")
+            errorMessage.push(result.errorList.email)
+            errorMessage.push(result.errorList.lastName)
+            errorMessage.push(result.errorList.name)
+            errorMessage.push(result.errorList.password)
+            errorMessage.push(result.errorList.phoneNumber)
+            errorMessage.push(result.errorList.salary)
+            console.warn(errorMessage)
+            console.warn(result)
+            setShow(true)
         }
     }
 
     return(
         <div>
+            <Header/>
+            <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Błąd</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    { errorMessage.map((item) => <p>{item}</p>) }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Zamknij
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
+                    <Col sm={12} md={10}>
+                        <Link to="/manage/employee">
+                            <Button className='float-start ' variant='danger'><FontAwesomeIcon icon={faChevronLeft} /></Button>
+                        </Link>
+                    </Col>
                     <Col sm={12}><h2>Dodaj pracownika</h2></Col> 
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
@@ -100,7 +151,7 @@ function AddEmployee()
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Płaca</Form.Label>
-                                <Form.Control type="input" value={salary} onChange={(e)=>setSalary(e.target.value)}/>
+                                <Form.Control type="number" value={salary} onChange={(e)=>setSalary(e.target.value)}/>
                             </Form.Group>
                         </Col>
                         <div className="clearfix"></div>
@@ -130,7 +181,7 @@ function AddEmployee()
                         </Col>
                         <Col sm={12}>
                         <Button variant="danger" className="mb-5" onClick={create}>
-                            Dodaj
+                            Edytuj
                         </Button>
                         </Col>
                 </Row>
@@ -139,4 +190,4 @@ function AddEmployee()
     )
 }
 
-export default AddEmployee
+export default EditEmployee

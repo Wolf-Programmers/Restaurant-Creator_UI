@@ -75,7 +75,7 @@ function ManageEmployee()
                                     <td>{employee.email}</td>
                                     <td>{employee.employeeRoleName}</td>
                                     <td>
-                                        <Link to={"/manage/restaurant/"+employee.id}>
+                                        <Link to={"/manage/employee/"+employee.id}>
                                             <Button variant='warning'><FontAwesomeIcon icon={faPenToSquare} /></Button>
                                         </Link>
                                     </td>

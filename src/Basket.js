@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlus, faMinus, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +8,7 @@ export default function Basket(props){
 
     const {cartItems, onAdd, onRemove} = props;
     const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0)
+    const [cupon, setC] = useState()
 
     return (
         <Row>
@@ -29,8 +30,12 @@ export default function Basket(props){
                     <Button variant="danger" onClick={() => onRemove(item)}><FontAwesomeIcon icon={faMinus} /></Button>
                     <Button variant="success" onClick={() => onAdd(item)}><FontAwesomeIcon icon={faPlus} /></Button>
                     </Col>
-                    <Col className="mt-3"  sm={6}>
+                    <Col className="mt-3"  sm={7}>
+                    {cupon ?
+                        <h5 className="float-end">{item.qty} <FontAwesomeIcon icon={faXmark} /> <s>{item.price.toFixed(2)}</s> {(item.price * ((100 - cupon)/100)).toFixed(2)}zł</h5>
+                        :
                         <h5 className="float-end">{item.qty} <FontAwesomeIcon icon={faXmark} /> {item.price}zł</h5>
+                        }
                     </Col>
                </Row>
         ))} 
@@ -38,7 +43,11 @@ export default function Basket(props){
             <Row>
                 <hr className="mt-3"/>
                 <Col>
-                <h5 className="float-end">Suma: {itemsPrice}zł</h5>
+                {cupon ? 
+                <h5 className="float-end">Suma: <s>{itemsPrice.toFixed(2)}</s> {(itemsPrice * ((100 - cupon)/100)).toFixed(2)}zł</h5> 
+                :
+                <h5 className="float-end">Suma: {itemsPrice.toFixed(2)}zł</h5>
+                }
                 </Col>
             </Row>  
         )}

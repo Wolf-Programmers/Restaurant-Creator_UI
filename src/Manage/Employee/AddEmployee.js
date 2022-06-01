@@ -16,7 +16,7 @@ function AddEmployee()
     const [phoneNumber, setPhone]=useState("")
     const [email, setEmail]=useState("")
     const [password, setPassword]=useState("")
-    const [salary, setSalary]=useState()
+    const [salaryAmount, setSalary]=useState()
     const [restaurants, setRestaurants]=useState([])
     const [restaurantId, setRestaurantId]=useState()
     const [employeeRoles, setEmployeeRoles]=useState()
@@ -46,7 +46,9 @@ function AddEmployee()
     },[]);
 
     async function create(){
-
+        let salary = parseFloat(salaryAmount.replace(',', '.'))
+        salary = salary.toFixed(2)
+        console.warn(salary)
         let item={name,lastName, phoneNumber, email, password, salary, restaurantId, employeeRoleId}
         console.warn(item)
 
@@ -138,7 +140,7 @@ function AddEmployee()
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Płaca</Form.Label>
-                                <Form.Control type="number" value={salary} onChange={(e)=>setSalary(e.target.value)}/>
+                                <Form.Control type="number" value={salaryAmount} onChange={(e)=>setSalary(e.target.value)}/>
                             </Form.Group>
                         </Col>
                         <div className="clearfix"></div>
