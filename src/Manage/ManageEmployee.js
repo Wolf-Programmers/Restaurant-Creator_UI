@@ -40,9 +40,9 @@ function ManageEmployee()
               setEmployees(data)
         }
 
-    async function deleteRestaurant(RestaurantId){
+    async function deleteEmployee(employeeId){
         
-        let result = await fetch("https://creator.azurewebsites.net/employee/delete?id=" + RestaurantId,{
+        let result = await fetch("https://creator.azurewebsites.net/employee/delete?id=" + employeeId,{
             method: 'DELETE',
             headers:{
                 "Access-Control-Allow-Origin" : "*"
@@ -112,7 +112,7 @@ function ManageEmployee()
                                             <Button variant='warning'><FontAwesomeIcon icon={faPenToSquare} /></Button>
                                         </Link>
                                     </td>
-                                    <td><Button variant='danger'><FontAwesomeIcon icon={faTrashCan} onClick={(e) => deleteRestaurant(employee.id, e)}/></Button></td>
+                                    <td><Button variant='danger'><FontAwesomeIcon icon={faTrashCan} onClick={(e) => deleteEmployee(employee.id, e)}/></Button></td>
                                 </tr>
                             </>:<></>
                             )}

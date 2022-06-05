@@ -91,7 +91,7 @@ function EditRestaurant(props)
         fetchRestaurantData()
     },[]);
 
-    async function create(){
+    async function editRestaurant(){
 
         let openingTimes = [
             {
@@ -305,7 +305,7 @@ function EditRestaurant(props)
                             </Form.Group>
                         </Col>
                         <Col sm={12}>
-                        <Button variant="danger" className="mb-5" onClick={create}>
+                        <Button variant="danger" className="mb-5" onClick={editRestaurant}>
                             Dodaj
                         </Button>
                         </Col>

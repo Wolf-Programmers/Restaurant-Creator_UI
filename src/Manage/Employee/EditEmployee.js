@@ -58,12 +58,12 @@ function EditEmployee(props)
         fetchEmployee()
     },[]);
 
-    async function create(){
+    async function editEmployee(){
 
         let item={name,lastName, phoneNumber, email, password, salary, restaurantId, employeeRoleId}
         console.warn(item)
 
-        let result = await fetch("https://creator.azurewebsites.net/employee/add-employee/",{
+        let result = await fetch("https://creator.azurewebsites.net/employee/update-employee/",{
             method:'PUT',
             body:JSON.stringify(item),
             headers:{
@@ -74,7 +74,7 @@ function EditEmployee(props)
         result = await result.json()
         
         if(result.status === 1){
-            alert("Dodano pomyślnie!");
+            alert("Edytowano pomyślnie!");
             navigate('/manage/employee')
         }
         else{
@@ -115,7 +115,7 @@ function EditEmployee(props)
                             <Button className='float-start ' variant='danger'><FontAwesomeIcon icon={faChevronLeft} /></Button>
                         </Link>
                     </Col>
-                    <Col sm={12}><h2>Dodaj pracownika</h2></Col> 
+                    <Col sm={12}><h2>Edytuj pracownika</h2></Col> 
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Imie</Form.Label>
@@ -180,7 +180,7 @@ function EditEmployee(props)
                             </Form.Group>
                         </Col>
                         <Col sm={12}>
-                        <Button variant="danger" className="mb-5" onClick={create}>
+                        <Button variant="danger" className="mb-5" onClick={editEmployee}>
                             Edytuj
                         </Button>
                         </Col>
