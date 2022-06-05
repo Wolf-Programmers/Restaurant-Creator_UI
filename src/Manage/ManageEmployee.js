@@ -1,6 +1,6 @@
 import AddEmployee from "./Employee/AddEmployee";
 import Header from '../Header';
-import { Col, Container, Row, Table, Button } from "react-bootstrap";
+import { Col, Container, Row, Table, Button, Modal } from "react-bootstrap";
 import {useNavigate, Link} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,33 +15,67 @@ function ManageEmployee()
     const [restaurantId, setRestaurantId]= useState([])
     const [employees, setEmployees]= useState([])
 
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState("")
+
+    const handleClose = () => setShow(false);
+
     useEffect (()=>{
-       async function fetchData(){
-       let data = await fetch("https://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
-            data = await data.json()
-            data = data.value
-            setRestaurants(data)
-        }
-        async function fetchEmployeeData(){
-            let data = await fetch("https://creator.azurewebsites.net/employee/get-employee-by-owner?ownerId=" + user.id);
-                 data = await data.json()
-                 data = data.value
-                console.warn(data)
-                 setEmployees(data)
-             }
         fetchData()
         fetchEmployeeData()
     },[]);
 
+    async function fetchData(){
+        let data = await fetch("https://creator.azurewebsites.net/restaurant/get-restaurants?ownerId=" + user.id);
+             data = await data.json()
+             data = data.value
+             setRestaurants(data)
+         }
+
+    async function fetchEmployeeData(){
+         let data = await fetch("https://creator.azurewebsites.net/employee/get-employee-by-owner?ownerId=" + user.id);
+              data = await data.json()
+              data = data.value
+             console.warn(data)
+              setEmployees(data)
+        }
+
     async function deleteRestaurant(RestaurantId){
-        console.warn(RestaurantId)
-        let data = await fetch("https://creator.azurewebsites.net/restaurant/delete?restaurantId=" + RestaurantId);
-        console.warn(data)
+        
+        let result = await fetch("https://creator.azurewebsites.net/employee/delete?id=" + RestaurantId,{
+            method: 'DELETE',
+            headers:{
+                "Access-Control-Allow-Origin" : "*"
+            }
+        });
+        result = await result.json()
+        console.warn(result)
+        if(result.status === 1){
+            fetchData();
+            fetchEmployeeData()
+        }
+        else{
+            setErrorMessage(result.message)
+            setShow(true)
+        }
     }
 
     return(
         <div>
-            <Header/> 
+            <Header/>
+            <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Błąd</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    {errorMessage}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Zamknij
+                        </Button>
+                    </Modal.Footer>
+            </Modal>
             <Container>
                 <Row className='mt-4 justify-content-center'>
                     <Col sm={12} md={10}>
@@ -63,12 +97,11 @@ function ManageEmployee()
                                     <th>Rola</th>
                                 </tr>
                             </thead>
+                            <tbody>
                             {employees.map((employee)=>
                             item.id === employee.restaurant.id ?
-                            <>
-                            
-                                <tbody>
-                                <tr>
+                            <>  
+                                <tr key={employee.id}>
                                     <td>{employee.name}</td>
                                     <td>{employee.lastName}</td>
                                     <td>{employee.phoneNumber}</td>
@@ -81,9 +114,9 @@ function ManageEmployee()
                                     </td>
                                     <td><Button variant='danger'><FontAwesomeIcon icon={faTrashCan} onClick={(e) => deleteRestaurant(employee.id, e)}/></Button></td>
                                 </tr>
-                                </tbody>
                             </>:<></>
                             )}
+                            </tbody>
                         </Table> 
                         </>  
                         )}

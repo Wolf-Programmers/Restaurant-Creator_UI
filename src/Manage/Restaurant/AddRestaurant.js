@@ -143,7 +143,7 @@ function AddRestaurant()
                         <Modal.Title>Błąd</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    { errorMessage.map((item) => <p>{item}</p>) }
+                    { errorMessage.map((item, index) => <p key={index}>{item}</p>) }
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={handleClose}>

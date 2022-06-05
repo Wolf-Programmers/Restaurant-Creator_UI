@@ -84,11 +84,6 @@ function ManageCupoun()
                 </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
-                    <Col sm={12} md={10}>
-                        <Link to="/manage/employee">
-                            <Button className='float-start ' variant='danger'><FontAwesomeIcon icon={faChevronLeft} /></Button>
-                        </Link>
-                    </Col>
                     <Col sm={12}><h2>Dodaj kupon</h2></Col> 
                         <Col sm={12} md={4}>
                             <Form.Group className="mb-3">

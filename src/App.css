@@ -43,6 +43,12 @@
   right: 50px;
 }
 
+.cart-mobile{
+  position: absolute;
+  position: fixed;
+  right: 3px;
+}
+
 .menu-bg{
   background-color: #d9534f;
   color: #fff;

@@ -87,11 +87,14 @@ export default function RestaurantDetails(props)
                 </Modal.Footer>
             </Modal>
             <Container>
-            <Button className="mt-3 cart" variant="danger" onClick={handleOpen}>
+            <Button className="mt-3 cart d-none d-md-block" variant="danger" onClick={handleOpen}>
+                <FontAwesomeIcon icon={faCartShopping} />
+            </Button>
+            <Button className="mt-3 cart-mobile  d-block d-md-none" variant="danger" onClick={handleOpen}>
                 <FontAwesomeIcon icon={faCartShopping} />
             </Button>
             <Row>
-            <Col md={4} className="mt-4 restaurant-info">
+            <Col md={4} className="mt-4 restaurant-info d-none d-md-block">
                 <Row className="restaurant-info">
                 <Col sm={12}>
                 <h1>{restaurant.name}</h1>
@@ -120,15 +123,45 @@ export default function RestaurantDetails(props)
                 </Col>
                 </Row>
             </Col>
-            <Col md={7} className="mt-4 justify-content-center">
-                <Col md={12} className="mt-5">
+            <Col md={12} className="mt-4 d-block d-md-none">
+                <Row>
+                <Col sm={12}>
+                <h1>{restaurant.name}</h1>
+                </Col>
+                <Col md={12}>
+                <h5><FontAwesomeIcon icon={faMapLocation} /> ul.{restaurant.address}, {restaurant.city}</h5>
+                </Col>
+                <Col md={12}>
+                <h6><FontAwesomeIcon icon={faPhone} /> {restaurant.phoneNumber}</h6>
+                </Col>
+                <Col md={12}>
+                <h6><FontAwesomeIcon icon={faEnvelope} /> {restaurant.email}</h6>
+                </Col>
+                <Col md={12} className="mt-4">
+                <h4>Godziny Otwarcia</h4>
+                {opening.map((item)=>
+                <Row key={item.dayOfWeek} className="justify-content-center" >
+                    <Col sm={12} md={4} >
+                        <h6 className="float-md-end">{today(item.dayOfWeek)}:</h6>
+                    </Col>
+                    <Col sm={12} md={4}>
+                        <h6 className="float-md-start">{item.from.substring(0,5)} - {item.to.substring(0,5)}</h6>
+                    </Col>
+                </Row>
+                )}
+                </Col>
+                </Row>
+            </Col>           
+            <Col sm={12} md={7} className="mt-4 justify-content-center">
+                <Col sm={12} className="mt-5">
                 <h1>Menu</h1>
-                {menu.map((type)=>
+                {  menu && menu.length?
+                menu.map((type)=>
                 <Row key={menu.id} className="mb-4 justify-content-center">
                     <Col sm={12} md={8} className="menu-bg mb-3">
                     <h3 className="float-md-start">{type.menuName}</h3>
                     </Col>
-                    <Col sm={12} md={2} className="menu-bg mb-3">
+                    <Col md={2} className="menu-bg mb-3 d-none d-md-block">
                         <p className="float-md-end">{type.menuTypeName}</p>
                     </Col>
                     <div className="clearfix"></div>
@@ -136,7 +169,7 @@ export default function RestaurantDetails(props)
                      <Product key={product.id} product={product} onAdd={onAdd}/>
                     )}
                 </Row>
-                )}
+                ):<><h5>Menu nie jest dostępne online</h5></>}
                 </Col>
                 </Col>
                 </Row>

@@ -33,7 +33,7 @@ function EditRestaurant(props)
     const [satC, setSatC]=useState("")
     const [sunC, setSunC]=useState("")
     const [type, setType]=useState([])
-    const [typeSelected, setTypeSelected]=useState()
+    const [typeSelected, setTypeSelected]=useState("")
 
     useEffect (()=>{
         async function fetchRestaurantData(){
@@ -42,12 +42,14 @@ function EditRestaurant(props)
     
                 if(data.status === 1){
                     data = await data.value
+                    console.warn(data)
                     setName(data.name)
                     setCity(data.city)
                     setAddress(data.address)
                     setPhone(data.phoneNumber)
                     setEmail(data.email)
                     setVoivodeship(data.voivodeship)
+                    setTypeSelected(data.restaurantTypes[0].id)
                     setMonO(data.openingPeriod[0].from)
                     setTueO(data.openingPeriod[1].from)
                     setWedO(data.openingPeriod[2].from)
@@ -64,7 +66,8 @@ function EditRestaurant(props)
                             setSatC(data.openingPeriod[5].to)
                             setSunC(data.openingPeriod[6].to)
                     }}
-                    setTypeSelected(data.restaurantTypes[0].id)
+                    
+                    console.warn(typeSelected)
                 }
                 else {
                     navigate('/restaurant')
@@ -78,15 +81,14 @@ function EditRestaurant(props)
         setType(data)
         }
         async function fetchVoivodeshipData(){
-            let data = await fetch("https://creator.azurewebsites.net/restaurant//get-voivodeship");
+            let data = await fetch("https://creator.azurewebsites.net/restaurant/get-voivodeship");
                 data = await data.json()
                 data = await data.value
-                console.warn(data)
             setVoivodeshipList(data)
         }
         fetchData();
-        fetchRestaurantData()
         fetchVoivodeshipData()
+        fetchRestaurantData()
     },[]);
 
     async function create(){
@@ -136,11 +138,12 @@ function EditRestaurant(props)
         let item={owner, name, city, address, phoneNumber, email, voivodeship, openingTimes, restaurantTypesList}
         console.warn(item)
 
-        let result = await fetch("https://creator.azurewebsites.net/restaurant/add/",{
-            method:'PUT',
+        let result = await fetch("https://creator.azurewebsites.net/restaurant/update",{
+            method:'POST',
             body:JSON.stringify(item),
             headers:{
                 "Content-Type":'application/json',
+                "Access-Control-Allow-Origin" : "*"
             }
         })
 
@@ -166,7 +169,7 @@ function EditRestaurant(props)
                             <Button className='float-start ' variant='danger'><FontAwesomeIcon icon={faChevronLeft} /></Button>
                         </Link>
                     </Col>
-                    <Col sm={12}><h2>Dodaj restaurację</h2></Col> 
+                    <Col sm={12}><h2>Edytuj restaurację</h2></Col> 
                         <Col sm={12} md={8}>
                             <Form.Group className="mb-3">
                                 <Form.Label className="float-start">Nazwa restauracji</Form.Label>

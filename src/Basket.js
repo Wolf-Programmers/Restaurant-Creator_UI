@@ -34,7 +34,7 @@ export default function Basket(props){
                     {cupon ?
                         <h5 className="float-end">{item.qty} <FontAwesomeIcon icon={faXmark} /> <s>{item.price.toFixed(2)}</s> {(item.price * ((100 - cupon)/100)).toFixed(2)}zł</h5>
                         :
-                        <h5 className="float-end">{item.qty} <FontAwesomeIcon icon={faXmark} /> {item.price}zł</h5>
+                        <h5 className="float-end">{item.qty} <FontAwesomeIcon icon={faXmark} /> {item.price.toFixed(2)}zł</h5>
                         }
                     </Col>
                </Row>

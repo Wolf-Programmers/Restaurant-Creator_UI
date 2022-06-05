@@ -6,8 +6,6 @@ import Header from './Header';
 
 function RestaurantList()
 {   
-    let now = new Date()
-    let today = now.getDay()
     let city = localStorage.getItem('city')
 
     const [restaurants, setRestaurants]=useState([])
@@ -39,27 +37,16 @@ function RestaurantList()
                 <Row className="justify-content-center mt-4">
                     <Col>
                     <h1>Lista Restauracji </h1>
-                        {/* <Form.Control type="text" className="search-bar" placeholder="Szukaj..." />
-                        <Button variant="outline-secondary" className="search-icon"><FontAwesomeIcon icon={faSearch} /></Button> */}
-                    </Col>
+                  </Col>
                 </Row>
-                {/* <Row className="mt-3">
-                    <Col>
-                    <Button variant="outline-danger" className="cousine-type">Kuchnia Włoska</Button>
-                    <Button variant="outline-danger" className="cousine-type">Kuchnia Azjatycka</Button>
-                    <Button variant="outline-danger" className="cousine-type">Kebab</Button>
-                    <Button variant="outline-danger" className="cousine-type">Burgery</Button>
-                    <Button variant="outline-danger" className="cousine-type">Kuchnia Polska</Button>
-                    </Col>
-                </Row> */}
             </Container>
             <div className="clearfix"></div>
             <Container className="mt-5">
                 <Row>
                     { restaurants.map((item)=>
-                    <Row className="justify-content-center restaurant-card">
+                    <Row key={item.id} className="justify-content-center restaurant-card">
                         <Col md={3}>
-                            <img className="restaurant-img" src="https://www.feinschmecker.de/uploads/media/940x/03/743-Burger-de-Luxe.jpg?v=1-0" alt="Zdjecie restauracji"/>
+                            <img className="restaurant-img" src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmVzdGF1cmFudCUyMGZvb2R8ZW58MHx8MHx8&w=1000&q=80" alt="Zdjecie restauracji"/>
                         </Col>
                         <Col md={7}>
                             <Row>
