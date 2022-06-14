@@ -20,8 +20,17 @@ function RestaurantSearch(){
         <div>
             <Header/>
             <Container fluid>
-                <Row>
-                    <Col>
+                <Row className="mb-5">
+                <Col className="mt-5 d-block d-md-none">
+                            <Col className="mb-5"><h2>Znajdź restaurację w swojej okolicy</h2></Col>
+                            <Col className="mt-5 mb-4">
+                                <Form.Control type="text" value={city} onChange={(e)=>setCity(e.target.value)} placeholder="Szukaj..." />
+                            </Col>
+                            <Col>
+                                <Button variant="danger" className="search-icon" onClick={searchCity}><FontAwesomeIcon icon={faSearch} /></Button>
+                            </Col>
+                    </Col>
+                    <Col className="d-none d-md-block">
                     <div className="login-bg">
                         <div className="bg-mute">
                         <div className="search-box">

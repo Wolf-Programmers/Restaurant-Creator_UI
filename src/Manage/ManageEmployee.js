@@ -41,8 +41,7 @@ function ManageEmployee()
         }
 
     async function deleteEmployee(employeeId){
-        
-        let result = await fetch("https://creator.azurewebsites.net/employee/delete?id=" + employeeId,{
+        let result = await fetch("https://creator.azurewebsites.net/employee/delete?employeeId=" + employeeId,{
             method: 'DELETE',
             headers:{
                 "Access-Control-Allow-Origin" : "*"
@@ -87,7 +86,7 @@ function ManageEmployee()
                         { restaurants.map((item)=>
                         <>
                         <div class="p-2 mt-4 bg-danger text-white">{item.name}</div>
-                        <Table striped hover className="mt-3">
+                        <Table striped hover responsive className="mt-3">
                             <thead>
                                 <tr>
                                     <th>Imię</th>

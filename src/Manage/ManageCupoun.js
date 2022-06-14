@@ -43,7 +43,7 @@ function ManageCupoun()
         console.warn(item)
 
         let result = await fetch("https://creator.azurewebsites.net/cupon/cupon-create",{
-            method:'POST',
+            method:'PUT',
             body:JSON.stringify(item),
             headers:{
                 "Content-Type":'application/json',

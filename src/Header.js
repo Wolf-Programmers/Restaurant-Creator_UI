@@ -17,10 +17,12 @@ function Header()
 
     return(
         <div>
-        <Navbar bg="danger" variant="dark">
-            <Container>
-            <Navbar.Brand><FontAwesomeIcon icon={faUtensils} /> myRestaurant</Navbar.Brand>
-            <Nav className="me-auto navbar-links">
+            <Navbar collapseOnSelect expand="md" bg="danger" variant="dark">
+  <Container>
+  <Navbar.Brand><FontAwesomeIcon icon={faUtensils} /> myRestaurant</Navbar.Brand>
+  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+  <Navbar.Collapse id="responsive-navbar-nav">
+  <Nav className="me-auto navbar-links">
                 <Nav.Link as={Link} to="/">Home</Nav.Link>
             </Nav>
             <Nav className="navbar-links">
@@ -42,8 +44,10 @@ function Header()
                     </>
                 }  
             </Nav>
-            </Container>
-        </Navbar>
+  </Navbar.Collapse>
+  </Container>
+</Navbar>
+ 
         </div>
     )
 }

@@ -79,13 +79,7 @@ function EditEmployee(props)
         }
         else{
             errorMessage.length = 0
-            errorMessage.push("")
-            errorMessage.push(result.errorList.email)
-            errorMessage.push(result.errorList.lastName)
-            errorMessage.push(result.errorList.name)
-            errorMessage.push(result.errorList.password)
-            errorMessage.push(result.errorList.phoneNumber)
-            errorMessage.push(result.errorList.salary)
+            errorMessage.push(result.message)
             console.warn(errorMessage)
             console.warn(result)
             setShow(true)

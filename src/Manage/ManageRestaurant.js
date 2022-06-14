@@ -69,7 +69,7 @@ function ManageRestaurant()
                         </Link>
                     </Col>
                     <Col sm={12} md={10}>
-                        <Table striped hover>
+                        <Table striped hover responsive>
                             <thead>
                                 <tr>
                                     <th>Nazwa</th>

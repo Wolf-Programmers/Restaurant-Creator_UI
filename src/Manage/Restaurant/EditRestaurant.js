@@ -1,4 +1,4 @@
-import { Col, Container, Row, Form, Button} from "react-bootstrap";
+import { Col, Container, Row, Form, Button, Modal} from "react-bootstrap";
 import {useNavigate, Link, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import Header from "../../Header";
@@ -34,6 +34,11 @@ function EditRestaurant(props)
     const [sunC, setSunC]=useState("")
     const [type, setType]=useState([])
     const [typeSelected, setTypeSelected]=useState("")
+
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage]=useState([])
+
+    const handleClose = () => setShow(false);
 
     useEffect (()=>{
         async function fetchRestaurantData(){
@@ -93,7 +98,7 @@ function EditRestaurant(props)
 
     async function editRestaurant(){
 
-        let openingTimes = [
+        let openingPeriod = [
             {
                 "dayOfWeek":1,
                 "from":monO,
@@ -132,10 +137,10 @@ function EditRestaurant(props)
 
         ]
 
-        let owner = user.id
+        let ownerId = user.id
         let cuisine = parseInt(typeSelected)
-        let restaurantTypesList = [{id:cuisine}]
-        let item={owner, name, city, address, phoneNumber, email, voivodeship, openingTimes, restaurantTypesList}
+        let restaurantTypes = [{id:cuisine}]
+        let item={ownerId, name, city, address, phoneNumber, email, voivodeship, openingPeriod, restaurantTypes}
         console.warn(item)
 
         let result = await fetch("https://creator.azurewebsites.net/restaurant/update",{
@@ -153,15 +158,38 @@ function EditRestaurant(props)
             navigate('/')
         }
         else{
+            errorMessage.length = 0
+            errorMessage.push("")
+            errorMessage.push(result.errorList.restaurantId)
+            errorMessage.push(result.errorList.email)
+            errorMessage.push(result.errorList.phoneNumber)
+            errorMessage.push(result.errorList.address)
+            errorMessage.push(result.errorList.city)
+            errorMessage.push(result.errorList.voivodeship)
+            errorMessage.push(result.errorList.openingTimes)
             console.warn(result) 
             console.warn(result.errorList) 
-            console.warn(type)   
+            console.warn(type)
+            setShow(true) 
         }
     }
 
     return(
         <div>
             <Header/>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Błąd</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    { errorMessage.map((item, index) => <p key={index}>{item}</p>) }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Zamknij
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             <Container>
                 <Row className="justify-content-center mt-5">
                 <Col sm={12} md={10}>
@@ -306,7 +334,7 @@ function EditRestaurant(props)
                         </Col>
                         <Col sm={12}>
                         <Button variant="danger" className="mb-5" onClick={editRestaurant}>
-                            Dodaj
+                            Edytuj
                         </Button>
                         </Col>
                 </Row>

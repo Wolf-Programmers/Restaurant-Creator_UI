@@ -60,7 +60,28 @@ function Login()
       </Modal>
             <Container fluid>
                 <Row>
-                    <Col>
+                <Col className="mt-5 d-block d-md-none">
+                        <Col className="mt-5"><h1>Zaloguj się</h1></Col>
+                        <Col>
+                          <Form id="login-form">
+                            <Form.Group className="mt-5 mb-4" >
+                               <Form.Control type="email" value={login} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" />
+                            </Form.Group>
+                            <Form.Group className="mb-5">
+                                <Form.Control type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Hasło" />
+                            </Form.Group>
+                            <Button className="login-btn" variant="danger" onClick={logIn}>
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </Button>
+                            </Form>
+                        </Col>
+                        <Col className="mt-3">
+                        <small className="text-muted">
+				            Nie masz konta? <Link to="/register">Rejestracja</Link>
+			            </small>
+                        </Col>
+                    </Col>
+                    <Col className="d-none d-md-block">
                     <div className="login-bg">
                         <div className="login-box">
                         <Col><h1>Zaloguj się</h1></Col>
